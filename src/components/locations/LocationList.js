@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { LocationContext } from "../../data/LocationProvider"
+import { LocationContext } from "../data/LocationProvider"
 import Location from "./Location"
 import "./LocationList.css"
 

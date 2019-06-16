@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import Animal from "./Animal"
-import { AnimalContext } from "../../data/AnimalProvider"
+import { AnimalContext } from "../data/AnimalProvider"
 import "./AnimalList.css"
 
 

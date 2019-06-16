@@ -1,6 +1,6 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import { KennelProvider } from "../data/KennelProvider";
+import { KennelProvider } from "./data/KennelProvider";
 
 import Login from "./auth/Login"
 import AuthRoute from "./auth/AuthRoute"
@@ -13,6 +13,9 @@ import Animal from "./animals/Animal"
 import LocationList from "./locations/LocationList"
 import Location from "./locations/Location"
 
+import EmployeeList from "./employees/EmployeeList"
+import Employee from "./employees/Employee"
+
 
 export default () => {
     return (
@@ -21,6 +24,11 @@ export default () => {
                 <Route path="/animals" component={AnimalList} />
                 <Route path="/animals/:animalId" render={(props) => {
                     return <Animal {...props} />
+                }} />
+
+                <Route path="/employees" component={EmployeeList} />
+                <Route path="/employees/:employeeId" render={(props) => {
+                    return <Employee {...props} />
                 }} />
 
                 <Route path="/locations" component={LocationList} />
