@@ -10,6 +10,8 @@ export const fetchIt = (url, method = "GET", body = null) => {
                 "Content-Type": "application/json",
             }
             break;
+        default:
+            break;
     }
 
     if (body !== null) {

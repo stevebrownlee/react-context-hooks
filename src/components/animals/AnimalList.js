@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from "react"
 import Animal from "./Animal"
-import { KennelContext } from "../../data/KennelProvider"
+import { AnimalContext } from "../../data/AnimalProvider"
 import "./AnimalList.css"
 
+
 export default () => {
-    const [animals, setAnimals] = useContext(KennelContext);
+    const { animals, dischargeAnimal } = useContext(AnimalContext);
 
     return (
         <div className="animals">
-            { animals.map(a => <Animal key={a.id} animal={a} />) }
+            {animals.map(a => <Animal key={a.id} animal={a} dischargeAnimal={dischargeAnimal} />)}
         </div>
     )
 }
