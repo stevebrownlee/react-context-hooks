@@ -1,3 +1,20 @@
 .centerChildren {
     text-align: center;
 }
+
+.small {
+    font-size: small;
+    color: #1E2A2D;
+}
+
+.smaller {
+    font-size: smaller;
+    color:grey;
+}
+
+@keyframes jiggle {
+    0% { transform: rotate(0deg) scale(1); opacity: 1; }
+    33% { transform: rotate(1deg) scale(1.0); opacity: 0.75; }
+    66% { transform: rotate(-1deg) scale(1.0); opacity: 0.5; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
