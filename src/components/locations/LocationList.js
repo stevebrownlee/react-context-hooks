@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
 import { LocationContext } from "../../data/LocationProvider"
-import { AnimalContext } from "../../data/AnimalProvider"
 import Location from "./Location"
 import "./LocationList.css"
 
