@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import Employee from "./Employee"
-import { EmployeeContext } from "../data/EmployeeProvider"
+import { EmployeeContext } from "../providers/EmployeeProvider"
 import "./EmployeeList.css"
 
 

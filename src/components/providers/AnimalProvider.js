@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
-import AnimalRepository from "../../modules/AnimalRepository"
+import AnimalRepository from "../../repositories/AnimalRepository"
 
 // The context is imported and used by individual components that need data
-export const AnimalContext = React.createContext([{}, () => { }])
+export const AnimalContext = React.createContext()
 
 /*
  This component establishes what data can be used.
@@ -18,6 +18,13 @@ export const AnimalProvider = props => {
         .then(setAnimals)
 
     /*
+        Add specified animal, then reload from API
+    */
+    const addAnimal = animal => AnimalRepository.addAnimal(animal)
+        .then(AnimalRepository.getAll)
+        .then(setAnimals)
+
+    /*
         Load all animals when the component is mounted. Ensure that
         an empty array is the second argument to avoid infinite loop.
     */
@@ -26,7 +33,7 @@ export const AnimalProvider = props => {
     }, [])
 
     return (
-        <AnimalContext.Provider value={{ animals, dischargeAnimal }}>
+        <AnimalContext.Provider value={{ animals, dischargeAnimal, addAnimal }}>
             {props.children}
         </AnimalContext.Provider>
     )

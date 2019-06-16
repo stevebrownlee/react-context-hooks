@@ -2,8 +2,8 @@ import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import person from "./person.png"
 import "./Employee.css"
-import { AnimalContext } from "../data/AnimalProvider"
-import { LocationContext } from "../data/LocationProvider"
+import { AnimalContext } from "../providers/AnimalProvider"
+import { LocationContext } from "../providers/LocationProvider"
 
 
 export default props => {

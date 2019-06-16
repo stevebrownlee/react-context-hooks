@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import LocationRepository from "../../modules/LocationRepository"
+import LocationRepository from "../../repositories/LocationRepository"
 
 export const LocationContext = React.createContext()
 

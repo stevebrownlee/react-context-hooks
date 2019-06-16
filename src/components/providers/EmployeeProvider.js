@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import EmployeeRepository from "../../modules/EmployeeRepository"
+import EmployeeRepository from "../../repositories/EmployeeRepository"
 
 
 // The context is imported and used by individual components that need data
