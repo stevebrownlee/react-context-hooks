@@ -1,13 +1,17 @@
-import React from "react"
+import React, {useContext} from "react"
 import { Link } from "react-router-dom"
 import location from "./location.png"
 import "./Location.css"
+import { AnimalContext } from "../../data/AnimalProvider";
 
 
 export default props => {
+    const { animals } = useContext(AnimalContext)
+    const animalCount = animals.filter(a => a.locationId === props.location.id).length
+
     return (
-        <div className="card location" style={{ width: `18rem` }}>
-            <div className="card-body">
+        <article className="card location" style={{ width: `18rem` }}>
+            <section className="card-body">
                 <img src={location} className="icon--location" />
                 <h5 className="card-title">
                     <Link className="card-link"
@@ -18,7 +22,10 @@ export default props => {
                         {props.location.name}
                     </Link>
                 </h5>
-            </div>
-        </div>
+            </section>
+            <section>
+                {`${animalCount} animals`}
+            </section>
+        </article>
     )
 }

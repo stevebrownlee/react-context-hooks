@@ -1,11 +1,12 @@
 import React, { useContext } from "react"
 import { LocationContext } from "../../data/LocationProvider"
-import Location from './Location'
+import { AnimalContext } from "../../data/AnimalProvider"
+import Location from "./Location"
 import "./LocationList.css"
 
 
 export default () => {
-    const { locations } = useContext(LocationContext);
+    const { locations } = useContext(LocationContext)
 
     return (
         <div className="locations">

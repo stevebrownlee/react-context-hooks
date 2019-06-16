@@ -24,14 +24,14 @@ export default class ApplicationViews extends Component {
                     <Route path="/animals/:animalId" render={(props) => {
                         return <Animal {...props} />
                     }} />
+                    <LocationProvider>
+                        <Route path="/locations" component={LocationList} />
+                        <Route path="/locations/:locationId" render={(props) => {
+                            return <Location {...props} />
+                        }} />
+                    </LocationProvider>
                 </AnimalProvider>
 
-                <LocationProvider>
-                    <Route path="/locations" component={LocationList} />
-                    <Route path="/locations/:locationId" render={(props) => {
-                        return <Location {...props} />
-                    }} />
-                </LocationProvider>
 
                 <Route path="/login" component={Login} />
                 <AuthRoute path="/search" Destination={SearchResults} />
