@@ -1,0 +1,7 @@
+.locations {
+    padding-top: 6em;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
