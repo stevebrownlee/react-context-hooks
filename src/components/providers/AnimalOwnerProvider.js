@@ -14,6 +14,11 @@ export const AnimalOwnerProvider = props => {
     const getAnimalOwners = id =>
         AnimalOwnerRepository.get(`?_expand=owner&_expand=animal&animalId=${id}`)
 
+    const changeOwner = (animalId, ownerId) => {
+        AnimalOwnerRepository.assignOwner(animalId, ownerId)
+            .then(AnimalOwnerRepository.getAll)
+            .then(setAnimalOwners)
+    }
 
     /*
         Load all animalOwners when the component is mounted. Ensure that
@@ -24,7 +29,7 @@ export const AnimalOwnerProvider = props => {
     }, [])
 
     return (
-        <AnimalOwnerContext.Provider value={{ animalOwners, getAnimalOwners }}>
+        <AnimalOwnerContext.Provider value={{ animalOwners, changeOwner, getAnimalOwners }}>
             {props.children}
         </AnimalOwnerContext.Provider>
     )

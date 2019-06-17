@@ -4,7 +4,7 @@ import { LocationProvider } from "./LocationProvider"
 import { AnimalProvider } from "./AnimalProvider"
 import { EmployeeProvider } from "./EmployeeProvider"
 import { OwnerProvider } from "./OwnerProvider"
-import { AnimalOwnerProvider } from "./AnimalOwnerProvider";
+import { AnimalOwnerProvider } from "./AnimalOwnerProvider"
 
 export const KennelProvider = props => {
 
