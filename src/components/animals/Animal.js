@@ -13,7 +13,7 @@ export default props => {
     const [ownerId, setOwnerId] = useState(0)
 
     const { animals, dischargeAnimal } = useContext(AnimalContext)
-    const { animalOwners, changeOwner } = useContext(AnimalOwnerContext)
+    const { animalOwners, changeOwner, removeOwnerRelationship } = useContext(AnimalOwnerContext)
     const { owners } = useContext(OwnerContext)
 
     // If being rendered by the AnimalList component
@@ -48,22 +48,30 @@ export default props => {
                     Owned by {myOwners.map(o => o.owner.name).join(" and ")}
                 </p>
 
-                <select defaultValue=""
-                    name="owner"
-                    id="ownerId"
-                    className="form-control"
-                    onChange={e => {
-                        changeOwner(animal.id, parseInt(e.target.value))
-                    }} >
-                    <option value="">Select an owner</option>
-                    {
-                        owners.map(o => (
-                            <option key={o.id} value={o.id}> {o.name} </option>
-                        ))
-                    }
-                </select>
+                {
+                    myOwners.length < 2
+                        ? <select defaultValue=""
+                            name="owner"
+                            className="form-control"
+                            onChange={e => {
+                                changeOwner(animal.id, parseInt(e.target.value))
+                            }} >
+                            <option value="">Select an owner</option>
+                            {
+                                owners.map(o => (
+                                    <option key={o.id} value={o.id}> {o.name} </option>
+                                ))
+                            }
+                        </select>
+                        : null
+                }
 
-                <button onClick={() => dischargeAnimal(animal.id)}>Discharge</button>
+
+
+                <button onClick={() => {
+                    removeOwnerRelationship(animal.id)
+                        .then(r => dischargeAnimal(animal.id))
+                }}>Discharge</button>
             </div>
         </div>
     )

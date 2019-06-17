@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import AnimalRepository from "../../repositories/AnimalRepository"
+import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository"
+import { AnimalOwnerContext } from "./AnimalOwnerProvider"
 
 // The context is imported and used by individual components that need data
 export const AnimalContext = React.createContext()

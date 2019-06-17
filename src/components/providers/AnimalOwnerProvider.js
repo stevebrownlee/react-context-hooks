@@ -20,6 +20,13 @@ export const AnimalOwnerProvider = props => {
             .then(setAnimalOwners)
     }
 
+    const removeOwnerRelationship = id => {
+        return AnimalOwnerRepository.getOwnersByAnimal(id)
+            .then(rels => {
+                rels.forEach(r => AnimalOwnerRepository.delete(r.id))
+            })
+    }
+
     /*
         Load all animalOwners when the component is mounted. Ensure that
         an empty array is the second argument to avoid infinite loop.
@@ -29,7 +36,12 @@ export const AnimalOwnerProvider = props => {
     }, [])
 
     return (
-        <AnimalOwnerContext.Provider value={{ animalOwners, changeOwner, getAnimalOwners }}>
+        <AnimalOwnerContext.Provider value={{
+            animalOwners,
+            changeOwner,
+            removeOwnerRelationship,
+            getAnimalOwners
+        }}>
             {props.children}
         </AnimalOwnerContext.Provider>
     )

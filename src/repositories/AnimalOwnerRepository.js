@@ -11,6 +11,10 @@ export default {
         })
         return await e.json()
     },
+    async getOwnersByAnimal (animalId) {
+        const e = await fetch(`${Settings.remoteURL}/animalOwners/?animalId=${animalId}`)
+        return await e.json()
+    },
     async assignOwner(animalId, ownerId) {
         const e = await fetch(`${Settings.remoteURL}/animalOwners`, {
             "method": "POST",
