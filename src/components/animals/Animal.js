@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
@@ -9,8 +9,6 @@ import "./AnimalCard.css"
 export default props => {
     let animal = {}
     let className = "card animal"
-
-    const [ownerId, setOwnerId] = useState(0)
 
     const { animals, dischargeAnimal } = useContext(AnimalContext)
     const { animalOwners, changeOwner, removeOwnerRelationship } = useContext(AnimalOwnerContext)
