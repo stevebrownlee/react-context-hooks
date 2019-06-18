@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react"
-import { withRouter } from "react-router-dom"
 import { EmployeeContext } from "../providers/EmployeeProvider"
 import { LocationContext } from "../providers/LocationProvider"
 import "./EmployeeForm.css"
@@ -27,9 +26,8 @@ export default (props) => {
 
     return (
         <React.Fragment>
-
             <form className="employeeForm">
-                <h2>New Employee</h2>
+                <h2 className="employeeForm__title">New Employee</h2>
                 <div className="form-group">
                     <label htmlFor="employeeName">Employee name</label>
                     <input

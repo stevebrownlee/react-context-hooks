@@ -7,8 +7,6 @@ import "./NavBar.css"
 export default class NavBar extends Component {
     state = { searchTerms: "" }
 
-
-
     search = (e) => {
         if (e.charCode === 13) {
             const terms = document.querySelector("#searchTerms").value
@@ -45,7 +43,7 @@ export default class NavBar extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-light fixed-top light-blue flex-md-nowrap p-0 shadow">
+            <nav className="navbar navbar-light fixed-top light-blue flex-md-nowrap p-2 shadow onTop">
             <ul className="nav nav-pills">
                 <li className="nav-item">
                     <Link className="nav-link" to="/locations">Locations</Link>

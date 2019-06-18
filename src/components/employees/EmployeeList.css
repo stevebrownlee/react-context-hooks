@@ -1,10 +1,12 @@
 .Modal {
     position: absolute;
-    top: 20em;
+    top: 15em;
     left: 10em;
     right: 10em;
-    bottom: 20em;
-    background-color: lightgoldenrodyellow;
+    bottom: 23em;
+    background-color: rgb(243, 243, 226);
+    box-shadow: 5px 15px 20px rgba(72, 62, 23, 0.4);
+    border-radius: 0.5em;
 }
 
 .Overlay {
@@ -22,14 +24,4 @@
     justify-content: space-evenly;
     flex-direction: row;
     flex-wrap: wrap;
-}
-
-.animalButton {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 0 10px 0;
-}
-
-.toastContainer {
-    max-width: 300px;
 }

@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import person from "./person.png"
-import "./Employee.css"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { LocationContext } from "../providers/LocationProvider"
+import "./Employee.css"
 
 
 export default props => {
@@ -26,15 +26,16 @@ export default props => {
                         {props.employee.name}
                     </Link>
                 </h5>
-                <button onClick={() => props.fireEmployee(props.employee.id)} >Fire</button>
+                <section>
+                    Caring for {animalCount} animals
+                </section>
+                <section>
+                    Working at {location.name}
+                </section>
+
+                <button className="btn--fireEmployee" onClick={() => props.fireEmployee(props.employee.id)} >Fire</button>
             </section>
 
-            <section>
-                Caring for {animalCount} animals
-            </section>
-            <section>
-                Working at {location.name}
-            </section>
         </article>
     )
 }

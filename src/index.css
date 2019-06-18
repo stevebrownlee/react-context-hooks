@@ -6,6 +6,10 @@ body {
     padding-top: 7em;
 }
 
+.onTop {
+    background-color: white;
+}
+
 .small {
     font-size: small;
     color: #1E2A2D;
