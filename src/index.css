@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+body {
+    padding-top: 7em;
+}
+
 .small {
     font-size: small;
     color: #1E2A2D;

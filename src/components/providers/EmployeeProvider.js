@@ -15,6 +15,10 @@ export const EmployeeProvider = props => {
         .then(EmployeeRepository.getAll)
         .then(setEmployees)
 
+    const hireEmployee = employee => EmployeeRepository.addEmployee(employee)
+        .then(EmployeeRepository.getAll)
+        .then(setEmployees)
+
     /*
         Load all employees when the component is mounted. Ensure that
         an empty array is the second argument to avoid infinite loop.
@@ -24,7 +28,7 @@ export const EmployeeProvider = props => {
     }, [])
 
     return (
-        <EmployeeContext.Provider value={{employees, fireEmployee}}>
+        <EmployeeContext.Provider value={{employees, hireEmployee, fireEmployee}}>
             {props.children}
         </EmployeeContext.Provider>
     )

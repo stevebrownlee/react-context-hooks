@@ -1,5 +1,23 @@
+.Modal {
+    position: absolute;
+    top: 20em;
+    left: 10em;
+    right: 10em;
+    bottom: 20em;
+    background-color: lightgoldenrodyellow;
+}
+
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: whitesmoke;
+}
+
 .employees {
-    padding-top: 6em;
+    padding-top: 3em;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;

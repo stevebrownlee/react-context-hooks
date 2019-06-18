@@ -11,6 +11,18 @@ export default {
         })
         return await e.json()
     },
+    async addEmployee(employee) {
+        const data = await fetch(`${Settings.remoteURL}/employees`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(employee)
+        })
+
+        return await data.json()
+    },
+
     async getAll() {
         const e = await fetch(`${Settings.remoteURL}/employees`)
         return await e.json()
