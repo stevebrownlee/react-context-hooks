@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
-import { useOxfordList } from "../../hooks/string/useOxfordList"
+import { Link } from "react-router-dom"
 
+import { useOxfordList } from "../../hooks/string/useOxfordList"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { EmployeeContext } from "../providers/EmployeeProvider"
 import { LocationContext } from "../providers/LocationProvider"
@@ -18,22 +19,32 @@ export default props => {
     const locationEmployees = employees.filter(e => e.locationId === locationId)
 
     return (
-        <div className="jumbotron">
-            <h1 className="display-4">{location.name}</h1>
-            <p className="lead">
-                {
-                    `Currently caring for ${useOxfordList(locationAnimals)}`
-                }
-            </p>
-            <hr className="my-4" />
-            <p>
-                {
-                    `We currently have ${locationEmployees.length}
-                    well-trained animal lovers and trainers:`
-                }
-            </p>
-            <p>{useOxfordList(locationEmployees)}</p>
-            <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </div>
+        <React.Fragment>
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    <Link className="breadcrumb-item" to={{ pathname: "/" }}> Home </Link>
+                    <Link className="breadcrumb-item" to={{ pathname: "/locations" }}> Locations </Link>
+                    <li className="breadcrumb-item active" aria-current="page">{location.name}</li>
+                </ol>
+            </nav>
+            <div className="jumbotron detailCard">
+                <h1 className="display-4">{location.name}</h1>
+                <p className="lead detailCard__lead">
+                    {
+                        `Currently caring for ${useOxfordList(locationAnimals)}`
+                    }
+                </p>
+                <hr className="my-4" />
+                <p className="lead detailCard__info">
+                    {
+                        `We currently have ${locationEmployees.length}
+                        well-trained animal lovers and trainers:`
+                    }
+                </p>
+                <p className="lead detailCard__info">
+                    {useOxfordList(locationEmployees)}
+                </p>
+            </div>
+        </React.Fragment>
     )
 }

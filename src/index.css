@@ -3,11 +3,15 @@
 }
 
 body {
-    padding-top: 7em;
+    padding-top: 5em;
 }
 
 .onTop {
     background-color: white;
+}
+
+.breadcrumb {
+    font-size: 0.75em;
 }
 
 .small {
