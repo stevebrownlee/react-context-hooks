@@ -15,6 +15,6 @@
 .employee:hover {
     animation: jiggle 0.2s;
     transition: .4s all ease;
-    z-index: 400;
+    z-index: 11;
     box-shadow: 5px 15px 20px rgba(72, 62, 23, 0.4)
 }

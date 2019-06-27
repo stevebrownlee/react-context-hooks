@@ -24,6 +24,21 @@ body {
     color:grey;
 }
 
+summary {
+    padding: 2px;
+    outline: none;
+}
+
+meter {
+    width: 80%;
+}
+
+dialog {
+    z-index: 12;
+    width: 70%;
+}
+
+
 @keyframes jiggle {
     0% { transform: rotate(0deg) scale(1); opacity: 1; }
     33% { transform: rotate(1deg) scale(1.0); opacity: 0.75; }
