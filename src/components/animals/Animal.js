@@ -26,19 +26,10 @@ export default props => {
     }
     const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
 
-    // Close all dialogs when ESC is pressed
-    window.addEventListener("keyup", (e) => {
-        if (e.keyCode === 27) {
-            document
-                .querySelectorAll(".dialog--animal")
-                .forEach(d => d.removeAttribute("open"))
-        }
-    })
-
     return (
         <React.Fragment>
             <dialog id={`dialog--${animal.id}`} className="dialog--animal">
-                <h2 style={{marginBottom: "1.3em"}}>Medical History for {animal.name}</h2>
+                <h2 style={{ marginBottom: "1.3em" }}>Medical History for {animal.name}</h2>
                 {
                     animal.treatments.map(t => (
                         <div key={t.id}>
@@ -69,11 +60,15 @@ export default props => {
                                 }}>
                                 {animal.name}
                             </Link> */}
-                            <a className="card-link"
-                                style={{cursor: "pointer"}}
+                            <a className="link--card"
+                                style={{
+                                    cursor: "pointer",
+                                    "textDecoration": "underline",
+                                    "color": "rgb(94, 78, 196)"
+                                }}
                                 onClick={() => {
-                                document.querySelector(`#dialog--${animal.id}`).setAttribute("open", true)
-                            }}> {animal.name} </a>
+                                    document.querySelector(`#dialog--${animal.id}`).setAttribute("open", true)
+                                }}> {animal.name} </a>
                         </h5>
                         <span className="card-text small">{animal.breed}</span>
                     </div>

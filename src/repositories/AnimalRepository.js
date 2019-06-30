@@ -2,7 +2,7 @@ import Settings from "./Settings"
 
 export default {
     async get(id) {
-        const e = await fetch(`${Settings.remoteURL}/animals/${id}?_embed=treatments`)
+        const e = await fetch(`${Settings.remoteURL}/animalia/${id}`)
         return await e.json()
     },
     async delete(id) {
@@ -12,7 +12,7 @@ export default {
         return await e.json()
     },
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/animals?_embed=treatments`)
+        const e = await fetch(`${Settings.remoteURL}/animalia`)
         return await e.json()
     },
     async addAnimal(newAnimal) {

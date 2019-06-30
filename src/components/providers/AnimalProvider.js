@@ -9,31 +9,49 @@ export const AnimalContext = React.createContext()
  */
 export const AnimalProvider = props => {
     const [animals, setAnimals] = useState([])
+    const [filteredAnimals, setFilteredAnimals] = useState([])
+
+    const search = subString => {
+        const filter = animals.filter(a => a.name.toLocaleLowerCase().includes(subString))
+        console.log(animals)
+        setFilteredAnimals(filter)
+    }
 
     /*
         Delete specified animal, then reload from API
     */
     const dischargeAnimal = id => AnimalRepository.delete(id)
         .then(AnimalRepository.getAll)
-        .then(setAnimals)
+        .then((animals) => {
+            setAnimals(animals)
+            setFilteredAnimals(animals)
+        })
 
     /*
         Add specified animal, then reload from API
     */
     const addAnimal = animal => AnimalRepository.addAnimal(animal)
         .then(AnimalRepository.getAll)
-        .then(setAnimals)
+        .then((animals) => {
+            setAnimals(animals)
+            setFilteredAnimals(animals)
+        })
 
     /*
         Load all animals when the component is mounted. Ensure that
         an empty array is the second argument to avoid infinite loop.
     */
     useEffect(() => {
-        AnimalRepository.getAll().then(setAnimals)
+        AnimalRepository.getAll()
+        .then((animals) => {
+            setAnimals(animals)
+            setFilteredAnimals(animals)
+        })
+
     }, [])
 
     return (
-        <AnimalContext.Provider value={{ animals, dischargeAnimal, addAnimal }}>
+        <AnimalContext.Provider value={{ animals, filteredAnimals, dischargeAnimal, addAnimal, search }}>
             {props.children}
         </AnimalContext.Provider>
     )

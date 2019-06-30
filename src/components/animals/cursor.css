@@ -1,0 +1,39 @@
+
+.cursor[open] {
+    display: block;
+}
+
+.cursor {
+    position: relative;
+    margin-left: 2em;
+    display: none;
+}
+.cursor	i {
+    font-size: xx-large;
+	position: absolute;
+	width: 1px;
+	height: 80%;
+	background-color: gray;
+	left: 5px;
+	top: 10%;
+	animation-name: blink;
+	animation-duration: 800ms;
+	animation-iteration-count: infinite;
+	opacity: 1;
+}
+
+.cursor > input {
+    border: 1px;
+    font-size: 6em;
+    font-weight: 100;
+    outline: none;
+}
+
+.cursor input:focus + i {
+	display: none;
+}
+
+@keyframes blink {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
