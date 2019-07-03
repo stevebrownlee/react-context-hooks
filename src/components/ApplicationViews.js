@@ -17,22 +17,12 @@ import EmployeeList from "./employees/EmployeeList"
 import Employee from "./employees/Employee"
 import AnimalForm from "./animals/AnimalForm"
 
-const isAuthenticated = () => sessionStorage.getItem("credentials") !== null
-
 export default () => (
     <React.Fragment>
         <KennelProvider>
-            <Route exact path="/animals" component={AnimalList} />
-            <Route path="/animals/:animalId(\d+)" render={(props) => {
-                return <Animal {...props} />
-            }} />
-            <Route path="/animals/new" render={(props) => {
-                if (isAuthenticated()) {
-                    return <AnimalForm {...props} />
-                } else {
-                    return <Redirect to="/login" />
-                }
-            }} />
+            <AuthRoute exact path="/animals" Destination={AnimalList} />
+            <AuthRoute path="/animals/:animalId(\d+)" Destination={Animal} />
+            <AuthRoute path="/animals/new" Destination={AnimalForm} />
 
             <AuthRoute exact path="/employees" Destination={EmployeeList} />
             <Route path="/employees/:employeeId" render={(props) => {
