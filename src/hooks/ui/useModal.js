@@ -1,11 +1,9 @@
-import { useState } from "react"
-
-const useModal = () => {
+const useModal = (selector) => {
     function toggleDialog(isOpen) {
         if (isOpen) {
-            document.querySelector("#dialog--animal").setAttribute("open", true)
+            document.querySelector(`${selector}`).setAttribute("open", true)
         } else {
-            document.querySelector("#dialog--animal").removeAttribute("open")
+            document.querySelector(`${selector}`).removeAttribute("open")
         }
     }
 

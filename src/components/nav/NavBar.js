@@ -3,10 +3,12 @@ import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./NavBar.css"
 import AnimalRepository from "../../repositories/AnimalRepository";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 
 
 export default (props) => {
     const searchInput = useRef()
+    const { isAuthenticated, logout } = useSimpleAuth()
 
     const search = (e) => {
         if (e.charCode === 13) {
@@ -56,6 +58,12 @@ export default (props) => {
                         type="search"
                         placeholder="Search"
                         aria-label="Search" />
+                </li>
+                <li className="nav-item">
+                    { isAuthenticated()
+                        ? <Link onClick={logout} className="nav-link" to="/login">Logout</Link>
+                        : <Link className="nav-link" to="/login">Login</Link>
+                    }
                 </li>
             </ul>
         </nav>

@@ -45,6 +45,7 @@ export default () => (
                 return <LocationDetail {...props} />
             }} />
             <AuthRoute path="/search" Destination={SearchResults} />
+            <AuthRoute path="/logout" Destination={SearchResults} />
         </KennelProvider>
 
         <Route path="/login" component={Login} />

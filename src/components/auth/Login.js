@@ -1,8 +1,9 @@
-import React, { Component, useRef } from "react"
+import React, { useRef } from "react"
+import { withRouter } from "react-router-dom"
 import "./Login.css"
 
 
-export default props => {
+const Login = props => {
     const email = useRef()
     const password = useRef()
     const remember = useRef(false)
@@ -23,6 +24,10 @@ export default props => {
                 password: password.current.value
             })
         )
+
+        props.history.push({
+            pathname: "/locations"
+        })
     }
 
     return (
@@ -60,3 +65,4 @@ export default props => {
         </main>
     )
 }
+ export default withRouter(Login)

@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react"
-import { Link } from "react-router-dom"
+import React, { useContext } from "react"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
 import { OwnerContext } from "../providers/OwnerProvider"
@@ -32,13 +31,6 @@ export default props => {
                 <div className="card-body">
                     <div className="animal__header">
                         <h5 className="card-title">
-                            {/* <Link className="card-link"
-                                to={{
-                                    pathname: `/animals/${animal.id}`,
-                                    state: { animal: animal }
-                                }}>
-                                {animal.name}
-                            </Link> */}
                             <a className="link--card"
                                 style={{
                                     cursor: "pointer",

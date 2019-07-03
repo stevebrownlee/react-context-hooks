@@ -9,7 +9,7 @@ import useModal from "../../hooks/ui/useModal";
 
 export default (props) => {
     const searchInput = useRef()
-    const { toggleDialog } = useModal(false)
+    const { toggleDialog } = useModal("#dialog--animal")
     const [searchEnabled, setSearchEnabled] = useState(false)
     const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
     let { filteredAnimals, search } = useContext(AnimalContext)
