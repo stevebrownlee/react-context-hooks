@@ -34,7 +34,7 @@ export default () => (
                 }
             }} />
 
-            <Route exact path="/employees" component={EmployeeList} />
+            <AuthRoute exact path="/employees" Destination={EmployeeList} />
             <Route path="/employees/:employeeId" render={(props) => {
                 return <Employee {...props} />
             }} />

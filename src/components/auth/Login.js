@@ -1,32 +1,16 @@
-import React, { Component } from "react"
+import React, { Component, useRef } from "react"
+import "./Login.css"
 
 
-export default class Login extends Component {
-
-    // Set initial state
-    state = {
-        email: "",
-        password: "",
-        remember: false
-    }
-
-    // Update state whenever an input field is edited
-    handleFieldChange = (evt) => {
-        const stateToChange = {}
-        stateToChange[evt.target.id] = evt.target.value
-        this.setState(stateToChange)
-    }
-
-    handleChecked = () => {
-        this.setState({
-          remember: !this.state.remember
-        })
-      }
+export default props => {
+    const email = useRef()
+    const password = useRef()
+    const remember = useRef(false)
 
     // Simplistic handler for login submit
-    handleLogin = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault()
-        const storage = this.state.remember ? localStorage : sessionStorage
+        const storage = remember.current.value ? localStorage : sessionStorage
 
         /*
             For now, just store the email and password that
@@ -35,41 +19,37 @@ export default class Login extends Component {
         storage.setItem(
             "credentials",
             JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
+                email: email.current.value,
+                password: password.current.value
             })
         )
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleLogin}>
+    return (
+        <main style={{textAlign:"center"}}>
+            <form className="form--login" onSubmit={handleLogin}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <fieldset>
-                    <label htmlFor="inputEmail">
-                        Email address
-                    </label>
-                    <input onChange={this.handleFieldChange} type="email"
+                    <label htmlFor="inputEmail"> Email address </label>
+                    <input ref={email} type="email"
                         id="email"
+                        className="form-control"
                         placeholder="Email address"
-                        required="" autoFocus="" />
+                        required autoFocus />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="inputPassword">
-                        Password
-                    </label>
-                    <input onChange={this.handleFieldChange} type="password"
+                    <label htmlFor="inputPassword"> Password </label>
+                    <input ref={password} type="password"
                         id="password"
+                        className="form-control"
                         placeholder="Password"
-                        required="" />
+                        required />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="remember">
-                        Remember Me
-                    </label>
-                    <input onChange={this.handleChecked}
-                           defaultChecked={this.state.remember}
-                           type="checkbox" name="remember" id="remember"/>
+                    <input ref={remember}
+                        defaultChecked={remember.current.value}
+                        type="checkbox" name="remember" id="remember" />
+                    <label htmlFor="remember"> Remember Me </label>
                 </fieldset>
                 <fieldset>
                     <button type="submit">
@@ -77,6 +57,6 @@ export default class Login extends Component {
                     </button>
                 </fieldset>
             </form>
-        )
-    }
+        </main>
+    )
 }

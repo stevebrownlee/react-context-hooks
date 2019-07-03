@@ -28,28 +28,7 @@ export default props => {
 
     return (
         <React.Fragment>
-            <dialog id={`dialog--${animal.id}`} className="dialog--animal">
-                <h2 style={{ marginBottom: "1.3em" }}>Medical History for {animal.name}</h2>
-                {
-                    animal.treatments.map(t => (
-                        <div key={t.id}>
-                            <h4>{t.timestamp}</h4>
-                            <p>{t.description}</p>
-                        </div>
-                    ))
-                }
-                <button style={{
-                    position: "absolute",
-                    top: "1em",
-                    right: "2em"
-                }}
-                    id="closeBtn"
-                    onClick={
-                        () => document.querySelector(`#dialog--${animal.id}`).removeAttribute("open")
-                    }>close</button>
-            </dialog>
-
-            <div className={className} style={{ width: `18rem` }}>
+            <li className={className} style={{ width: `18rem` }}>
                 <div className="card-body">
                     <div className="animal__header">
                         <h5 className="card-title">
@@ -67,7 +46,7 @@ export default props => {
                                     "color": "rgb(94, 78, 196)"
                                 }}
                                 onClick={() => {
-                                    document.querySelector(`#dialog--${animal.id}`).setAttribute("open", true)
+                                    props.showTreatmentHistory(animal)
                                 }}> {animal.name} </a>
                         </h5>
                         <span className="card-text small">{animal.breed}</span>
@@ -106,7 +85,7 @@ export default props => {
                         }}>Discharge</button>
                     </details>
                 </div>
-            </div>
+            </li>
         </React.Fragment>
     )
 }

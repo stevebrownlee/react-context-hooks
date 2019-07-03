@@ -3,12 +3,21 @@ import Animal from "./Animal"
 import { AnimalContext } from "../providers/AnimalProvider"
 import "./AnimalList.css"
 import "./cursor.css"
+import AnimalDialog from "./AnimalDialog";
+import useModal from "../../hooks/ui/useModal";
 
 
 export default (props) => {
     const searchInput = useRef()
+    const { toggleDialog } = useModal(false)
     const [searchEnabled, setSearchEnabled] = useState(false)
+    const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
     let { filteredAnimals, search } = useContext(AnimalContext)
+
+    const showTreatmentHistory = (animal) => {
+        setCurrentAnimal(animal)
+        toggleDialog(true)
+    }
 
     useEffect(() => {
         // Close all dialogs when ESC is pressed
@@ -18,9 +27,7 @@ export default (props) => {
                 searchInput.current.focus()
             } else if (e.keyCode === 27) {
                 setSearchEnabled(false)
-                document
-                    .querySelectorAll(".dialog--animal[open]")
-                    .forEach(d => d.removeAttribute("open"))
+                toggleDialog(false)
             }
         })
     }, [])
@@ -28,6 +35,8 @@ export default (props) => {
 
     return (
         <React.Fragment>
+            <AnimalDialog toggleDialog={toggleDialog} animal={currentAnimal} />
+
             <div className="centerChildren btn--newResource">
                 <button type="button"
                     className="btn btn-success "
@@ -50,9 +59,13 @@ export default (props) => {
                 <i></i>
             </div>
 
-            <div className="animals">
-                {filteredAnimals.map(a => <Animal key={a.id} animal={a} />)}
-            </div>
+            <ul className="animals">
+                {filteredAnimals.map(a =>
+                    <Animal
+                        showTreatmentHistory={showTreatmentHistory}
+                        key={a.id}
+                        animal={a} />)}
+            </ul>
         </React.Fragment>
     )
 }
