@@ -1,13 +1,13 @@
-import React, { Component } from "react"
+import React, { useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./NavBar.css"
 
 
-export default class NavBar extends Component {
-    state = { searchTerms: "" }
+export default (props) => {
+    const searchInput = useRef()
 
-    search = (e) => {
+    const search = (e) => {
         if (e.charCode === 13) {
             const terms = document.querySelector("#searchTerms").value
             const foundItems = {}
@@ -21,13 +21,13 @@ export default class NavBar extends Component {
                 .then(r => r.json())
                 .then(locations => {
                     foundItems.locations = locations
-                    return fetch(`http://localhost:5002/animals?name_like=${encodeURI(terms)}`)
+                    return fetch(`http://localhost:5002/animalia?name_like=${encodeURI(terms)}`)
                 })
                 .then(r => r.json())
                 .then(animals => {
                     foundItems.animals = animals
-                    this.setState({ searchTerms: "" })
-                    this.props.history.push({
+                    searchInput.current.value = ""
+                    props.history.push({
                         pathname: "/search",
                         state: foundItems
                     })
@@ -35,15 +35,8 @@ export default class NavBar extends Component {
         }
     }
 
-    handleFieldChange = (evt) => {
-        const stateToChange = {}
-        stateToChange[evt.target.id] = evt.target.value
-        this.setState(stateToChange)
-    }
-
-    render() {
-        return (
-            <nav className="navbar navbar-light fixed-top light-blue flex-md-nowrap p-2 shadow onTop">
+    return (
+        <nav className="navbar navbar-light fixed-top light-blue flex-md-nowrap p-2 shadow onTop">
             <ul className="nav nav-pills">
                 <li className="nav-item">
                     <Link className="nav-link" to="/locations">Locations</Link>
@@ -56,16 +49,14 @@ export default class NavBar extends Component {
                 </li>
                 <li className="nav-item">
                     <input id="searchTerms"
-                        onKeyPress={this.search}
-                        value={this.state.searchTerms}
-                        onChange={this.handleFieldChange}
+                        onKeyPress={search}
+                        ref={searchInput}
                         className="form-control w-100"
                         type="search"
                         placeholder="Search"
                         aria-label="Search" />
                 </li>
             </ul>
-            </nav>
-        )
-    }
+        </nav>
+    )
 }

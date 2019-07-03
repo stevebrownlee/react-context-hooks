@@ -1,5 +1,4 @@
 .animals {
-    padding-top: 4em;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;

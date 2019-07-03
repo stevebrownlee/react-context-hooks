@@ -20,13 +20,6 @@ export default props => {
 
     return (
         <React.Fragment>
-            <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <Link className="breadcrumb-item" to={{ pathname: "/" }}> Home </Link>
-                    <Link className="breadcrumb-item" to={{ pathname: "/locations" }}> Locations </Link>
-                    <li className="breadcrumb-item active" aria-current="page">{location.name}</li>
-                </ol>
-            </nav>
             <div className="jumbotron detailCard">
                 <h1 className="display-4">{location.name}</h1>
                 <p className="lead detailCard__lead">

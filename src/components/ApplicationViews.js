@@ -44,9 +44,9 @@ export default () => (
             <Route path="/locations/:locationId" render={(props) => {
                 return <LocationDetail {...props} />
             }} />
+            <AuthRoute path="/search" Destination={SearchResults} />
         </KennelProvider>
 
         <Route path="/login" component={Login} />
-        <AuthRoute path="/search" Destination={SearchResults} />
     </React.Fragment>
 )

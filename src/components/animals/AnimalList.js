@@ -16,9 +16,7 @@ export default (props) => {
             if (e.keyCode === 70 && e.shiftKey && e.altKey) {
                 setSearchEnabled(true)
                 searchInput.current.focus()
-                console.log("Searching....")
-            }
-            if (e.keyCode === 27) {
+            } else if (e.keyCode === 27) {
                 setSearchEnabled(false)
                 document
                     .querySelectorAll(".dialog--animal[open]")
@@ -41,6 +39,7 @@ export default (props) => {
             <div className="cursor" open={searchEnabled}>
                 <input type="text"
                     className="rq-form-element"
+                    placeholder="Search text"
                     onKeyUp={(e) => {
                         if (e.keyCode === 27) {
                             searchInput.current.value = ""
