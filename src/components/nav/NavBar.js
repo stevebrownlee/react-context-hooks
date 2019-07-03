@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./NavBar.css"
+import AnimalRepository from "../../repositories/AnimalRepository";
 
 
 export default (props) => {
@@ -21,9 +22,9 @@ export default (props) => {
                 .then(r => r.json())
                 .then(locations => {
                     foundItems.locations = locations
-                    return fetch(`http://localhost:5002/animalia?name_like=${encodeURI(terms)}`)
+                    return AnimalRepository.searchByName(encodeURI(terms))
+                    // return fetch(`http://localhost:5002/animalia?name_like=${encodeURI(terms)}`)
                 })
-                .then(r => r.json())
                 .then(animals => {
                     foundItems.animals = animals
                     searchInput.current.value = ""

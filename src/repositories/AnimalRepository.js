@@ -5,6 +5,10 @@ export default {
         const e = await fetch(`${Settings.remoteURL}/animalia/${id}`)
         return await e.json()
     },
+    async searchByName(query) {
+        const e = await fetch(`${Settings.remoteURL}/animals?_expand=employee&_sort=employee.id&_embed=treatments&_expand=location&name_like=${query}`)
+        return await e.json()
+    },
     async delete(id) {
         const e = await fetch(`${Settings.remoteURL}/animals/${id}`, {
             "method": "DELETE"
