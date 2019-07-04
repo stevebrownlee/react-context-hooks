@@ -49,15 +49,20 @@ export default props => {
                             <meter min="0" max="100" value={Math.random() * 100} low="25" high="75" optimum="100"></meter>
                         </summary>
 
-                        <p>
-                            Owned by {myOwners.map(o => o.owner.name).join(" and ")}
-                        </p>
+                        <section>
+                            <h6>Caretaker</h6>
+                            <span className="small">{animal.employee.name}</span>
+                            <h6>Owners</h6>
+                            <span className="small">
+                                Owned by {myOwners.map(o => o.owner.name).join(" and ")}
+                            </span>
+                        </section>
 
                         {
                             myOwners.length < 2
                                 ? <select defaultValue=""
                                     name="owner"
-                                    className="form-control"
+                                    className="form-control small"
                                     onChange={e => {
                                         changeOwner(animal.id, parseInt(e.target.value))
                                     }} >
@@ -71,7 +76,7 @@ export default props => {
                                 : null
                         }
 
-                        <button onClick={() => {
+                        <button className="btn btn-warning mt-3 form-control small" onClick={() => {
                             removeOwnerRelationship(animal.id)
                                 .then(r => dischargeAnimal(animal.id))
                         }}>Discharge</button>

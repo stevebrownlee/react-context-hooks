@@ -1,9 +1,13 @@
-.centerChildren {
-    text-align: center;
-}
-
 body {
     padding-top: 5em;
+}
+
+h6 {
+    margin-top: 0.5em;
+}
+
+.centerChildren {
+    text-align: center;
 }
 
 .onTop {
@@ -17,7 +21,7 @@ body {
 
 .smaller {
     font-size: smaller;
-    color:grey;
+    color: grey;
 }
 
 summary {
@@ -34,10 +38,21 @@ dialog {
     width: 70%;
 }
 
-
 @keyframes jiggle {
-    0% { transform: rotate(0deg) scale(1); opacity: 1; }
-    33% { transform: rotate(1deg) scale(1.0); opacity: 0.75; }
-    66% { transform: rotate(-1deg) scale(1.0); opacity: 0.5; }
-    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    33% {
+        transform: rotate(1deg) scale(1.0);
+        opacity: 0.75;
+    }
+    66% {
+        transform: rotate(-1deg) scale(1.0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
 }

@@ -10,7 +10,7 @@ import "./cursor.css"
 
 export default (props) => {
     const searchInput = useRef()
-    const { toggleDialog, isOpen } = useModal("#dialog--animal")
+    const { toggleDialog } = useModal("#dialog--animal")
     const [searchEnabled, setSearchEnabled] = useState(false)
     const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
     let { filteredAnimals, search } = useContext(AnimalContext)

@@ -1,29 +1,27 @@
 import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import "./Login.css"
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 
 
 const Login = props => {
     const email = useRef()
     const password = useRef()
     const remember = useRef(false)
+    const { setStorage, login } = useSimpleAuth()
 
     // Simplistic handler for login submit
     const handleLogin = (e) => {
         e.preventDefault()
-        const storage = remember.current.value ? localStorage : sessionStorage
+
+        console.log(remember.current.value)
+        const storage = remember.current.value !== "on" ? localStorage : sessionStorage
 
         /*
             For now, just store the email and password that
             the customer enters into local storage.
         */
-        storage.setItem(
-            "credentials",
-            JSON.stringify({
-                email: email.current.value,
-                password: password.current.value
-            })
-        )
+        login(email.current.value, password.current.value, storage)
 
         props.history.push({
             pathname: "/locations"
