@@ -18,9 +18,7 @@ export default ({toggleDialog, animal}) => {
                 right: "2em"
             }}
                 id="closeBtn"
-                onClick={
-                    () => toggleDialog(false)
-                }>close</button>
+                onClick={toggleDialog}>close</button>
         </dialog>
     )
 }

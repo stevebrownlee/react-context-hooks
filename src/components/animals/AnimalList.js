@@ -1,36 +1,44 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import Animal from "./Animal"
+import AnimalDialog from "./AnimalDialog"
 import { AnimalContext } from "../providers/AnimalProvider"
+import useModal from "../../hooks/ui/useModal"
+
 import "./AnimalList.css"
 import "./cursor.css"
-import AnimalDialog from "./AnimalDialog";
-import useModal from "../../hooks/ui/useModal";
 
 
 export default (props) => {
     const searchInput = useRef()
-    const { toggleDialog } = useModal("#dialog--animal")
+    const { toggleDialog, isOpen } = useModal("#dialog--animal")
     const [searchEnabled, setSearchEnabled] = useState(false)
     const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
     let { filteredAnimals, search } = useContext(AnimalContext)
 
     const showTreatmentHistory = (animal) => {
         setCurrentAnimal(animal)
-        toggleDialog(true)
+        toggleDialog()
     }
 
     useEffect(() => {
-        // Close all dialogs when ESC is pressed
-        window.addEventListener("keyup", (e) => {
+        const handler = e => {
+            // Open search field
             if (e.keyCode === 70 && e.shiftKey && e.altKey) {
                 setSearchEnabled(true)
                 searchInput.current.focus()
+
+            // Close all dialogs when ESC is pressed
             } else if (e.keyCode === 27) {
+                console.log("closing dialog")
                 setSearchEnabled(false)
-                toggleDialog(false)
+                toggleDialog()
             }
-        })
-    }, [])
+        }
+
+        window.addEventListener("keyup", handler)
+
+        return () => window.removeEventListener("keyup", handler)
+    }, [toggleDialog])
 
 
     return (
