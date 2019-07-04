@@ -50,7 +50,7 @@ export default (props) => {
                 <li className="nav-item">
                     <Link className="nav-link" to="/employees">Employees</Link>
                 </li>
-                <li className="nav-item">
+                <li className="navbar-nav mr-auto">
                     <input id="searchTerms"
                         onKeyPress={search}
                         ref={searchInput}
@@ -59,13 +59,13 @@ export default (props) => {
                         placeholder="Search"
                         aria-label="Search" />
                 </li>
-                <li className="nav-item">
-                    { isAuthenticated()
-                        ? <Link onClick={logout} className="nav-link" to="/login">Logout</Link>
-                        : <Link className="nav-link" to="/login">Login</Link>
-                    }
-                </li>
             </ul>
+            <div className="nav-item">
+                {isAuthenticated()
+                    ? <Link onClick={logout} className="nav-link" to="/login">Logout</Link>
+                    : <Link className="nav-link" to="/login">Login</Link>
+                }
+            </div>
         </nav>
     )
 }
