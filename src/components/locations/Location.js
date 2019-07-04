@@ -16,7 +16,7 @@ export default props => {
     return (
         <article className="card location" style={{ width: `18rem` }}>
             <section className="card-body">
-                <img src={location} className="icon--location" />
+                <img alt="Kennel location icon" src={location} className="icon--location" />
                 <h5 className="card-title">
                     <Link className="card-link"
                         to={{

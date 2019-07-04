@@ -31,7 +31,7 @@ export default props => {
                 <div className="card-body">
                     <div className="animal__header">
                         <h5 className="card-title">
-                            <a className="link--card"
+                            <button className="link--card btn btn-link"
                                 style={{
                                     cursor: "pointer",
                                     "textDecoration": "underline",
@@ -39,7 +39,7 @@ export default props => {
                                 }}
                                 onClick={() => {
                                     props.showTreatmentHistory(animal)
-                                }}> {animal.name} </a>
+                                }}> {animal.name} </button>
                         </h5>
                         <span className="card-text small">{animal.breed}</span>
                     </div>
