@@ -54,7 +54,11 @@ export default props => {
                             <span className="small">{animal.employee.name}</span>
                             <h6>Owners</h6>
                             <span className="small">
-                                Owned by {myOwners.map(o => o.owner.name).join(" and ")}
+                                {
+                                    myOwners.reduce((p, c, idx) => {
+                                        return `${p} ${idx > 0 ? "and" : "Owned by "} ${c.owner.name}`
+                                    }, "")
+                                }
                             </span>
                         </section>
 
@@ -66,7 +70,9 @@ export default props => {
                                     onChange={e => {
                                         changeOwner(animal.id, parseInt(e.target.value))
                                     }} >
-                                    <option value="">Select an owner</option>
+                                    <option value="">
+                                        Select {myOwners.length === 1 ? "another" : "an"} owner
+                                    </option>
                                     {
                                         owners.map(o => (
                                             <option key={o.id} value={o.id}> {o.name} </option>

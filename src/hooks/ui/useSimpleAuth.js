@@ -11,7 +11,6 @@ const useSimpleAuth = () => {
         || sessionStorage.getItem("credentials") !== null
 
     const login = (email, password, storageType = localStorage) => {
-        console.log(storageType)
         storageType.setItem(
             "credentials",
             JSON.stringify({
