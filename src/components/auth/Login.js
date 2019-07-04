@@ -8,7 +8,7 @@ const Login = props => {
     const email = useRef()
     const password = useRef()
     const remember = useRef(false)
-    const { setStorage, login } = useSimpleAuth()
+    const { login } = useSimpleAuth()
 
     // Simplistic handler for login submit
     const handleLogin = (e) => {

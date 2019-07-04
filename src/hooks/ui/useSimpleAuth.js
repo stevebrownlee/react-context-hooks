@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const useSimpleAuth = () => {
 
     const [loggedIn, setIsLoggedIn] = useState(false)
-    const [storage, setStorage] = useState(null)
 
     const isAuthenticated = () =>
         loggedIn
@@ -18,7 +17,6 @@ const useSimpleAuth = () => {
                 password: password
             })
         )
-        setStorage(storageType)
         setIsLoggedIn(true)
     }
 
@@ -28,7 +26,7 @@ const useSimpleAuth = () => {
         sessionStorage.removeItem("credentials")
     }
 
-    return { isAuthenticated, logout, login, setStorage }
+    return { isAuthenticated, logout, login }
 }
 
 export default useSimpleAuth
