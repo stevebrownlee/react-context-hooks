@@ -100,13 +100,34 @@ export default props => {
                             </span>
 
                             {
+                                myOwners.length < 2
+                                    ? <select defaultValue=""
+                                        name="owner"
+                                        className="form-control small"
+                                        onChange={e => {
+                                            changeOwner(animal.id, parseInt(e.target.value))
+                                        }} >
+                                        <option value="">
+                                            Select {myOwners.length === 1 ? "another" : "an"} owner
+                                    </option>
+                                        {
+                                            owners.map(o => (
+                                                <option key={o.id} value={o.id}> {o.name} </option>
+                                            ))
+                                        }
+                                    </select>
+                                    : null
+                            }
+
+
+                            {
                                 detailsOpen && "treatments" in animal
-                                ? <div className="small">
+                                    ? <div className="small">
                                         <h6>Treatment History</h6>
                                         {
                                             animal.treatments.map(t => (
                                                 <div key={t.id}>
-                                                    <p style={{fontWeight: "bolder", color: "grey"}}>{t.timestamp}</p>
+                                                    <p style={{ fontWeight: "bolder", color: "grey" }}>{t.timestamp}</p>
                                                     <p>{t.description}</p>
                                                 </div>
                                             ))
@@ -116,26 +137,6 @@ export default props => {
                             }
 
                         </section>
-
-                        {
-                            myOwners.length < 2
-                                ? <select defaultValue=""
-                                    name="owner"
-                                    className="form-control small"
-                                    onChange={e => {
-                                        changeOwner(animal.id, parseInt(e.target.value))
-                                    }} >
-                                    <option value="">
-                                        Select {myOwners.length === 1 ? "another" : "an"} owner
-                                    </option>
-                                    {
-                                        owners.map(o => (
-                                            <option key={o.id} value={o.id}> {o.name} </option>
-                                        ))
-                                    }
-                                </select>
-                                : null
-                        }
 
                         <button className="btn btn-warning mt-3 form-control small" onClick={() => {
                             removeOwnerRelationship(animal.id)

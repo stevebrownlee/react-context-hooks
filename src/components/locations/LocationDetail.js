@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import { useOxfordList } from "../../hooks/string/useOxfordList"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { EmployeeContext } from "../providers/EmployeeProvider"
@@ -21,10 +22,17 @@ export default props => {
             <div className="jumbotron detailCard">
                 <h1 className="display-4">{location.name}</h1>
                 <p className="lead detailCard__lead">
+                    Currently caring for
                     {
-                        `Currently caring for ${useOxfordList(locationAnimals)}`
+                        locationAnimals.map((a, idx, arr) =>
+                            <span>
+                                {idx > 0 && ", "}
+                                <Link to={`/animals/${a.id}`}> {a.name}</Link>
+                            </span>
+                        )
                     }
                 </p>
+
                 <hr className="my-4" />
                 <p className="lead detailCard__info">
                     {
