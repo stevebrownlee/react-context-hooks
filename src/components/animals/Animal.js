@@ -1,29 +1,36 @@
-import React, { useContext } from "react"
+import "./AnimalCard.css"
+import React, { useEffect, useContext, useState } from "react"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
 import { OwnerContext } from "../providers/OwnerProvider"
-import "./AnimalCard.css"
+import useResourceResolver from "../../hooks/resource/useResourceResolver";
 
 
 export default props => {
-    let animal = {}
     let className = "card animal"
 
     const { animals, dischargeAnimal } = useContext(AnimalContext)
     const { animalOwners, changeOwner, removeOwnerRelationship } = useContext(AnimalOwnerContext)
     const { owners } = useContext(OwnerContext)
+    const { resolveResource, resource } = useResourceResolver()
+    const [myOwners, setMyOwners] = useState([])
 
-    // If being rendered by the AnimalList component
-    if (props.hasOwnProperty("animal")) {
-        animal = props.animal
-    }
+    useEffect(() => {
+        resolveResource({
+            props: props,
+            property: "animal",
+            param: "animalId",
+            collection: animals
+        })
+
+        setMyOwners(animalOwners.filter(ao => ao.animalId === resource.id) || [])
+    }, [resource, animalOwners, animals])
+
 
     // If being rendered indepedently
     if (props.hasOwnProperty("match") && props.match.params.animalId) {
         className = "card animal--single"
-        animal = animals.find(a => a.id === parseInt(props.match.params.animalId)) || {}
     }
-    const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
 
     return (
         <React.Fragment>
@@ -38,10 +45,10 @@ export default props => {
                                     "color": "rgb(94, 78, 196)"
                                 }}
                                 onClick={() => {
-                                    props.showTreatmentHistory(animal)
-                                }}> {animal.name} </button>
+                                    props.showTreatmentHistory(resource)
+                                }}> {resource.name} </button>
                         </h5>
-                        <span className="card-text small">{animal.breed}</span>
+                        <span className="card-text small">{resource.breed}</span>
                     </div>
 
                     <details>
@@ -51,7 +58,11 @@ export default props => {
 
                         <section>
                             <h6>Caretaker</h6>
-                            <span className="small">{animal.employee.name}</span>
+                            <span className="small">{
+                                "employee" in resource
+                                    ? resource.employee.name
+                                    : ""
+                            }</span>
                             <h6>Owners</h6>
                             <span className="small">
                                 {
@@ -68,7 +79,7 @@ export default props => {
                                     name="owner"
                                     className="form-control small"
                                     onChange={e => {
-                                        changeOwner(animal.id, parseInt(e.target.value))
+                                        changeOwner(resource.id, parseInt(e.target.value))
                                     }} >
                                     <option value="">
                                         Select {myOwners.length === 1 ? "another" : "an"} owner
@@ -83,8 +94,8 @@ export default props => {
                         }
 
                         <button className="btn btn-warning mt-3 form-control small" onClick={() => {
-                            removeOwnerRelationship(animal.id)
-                                .then(r => dischargeAnimal(animal.id))
+                            removeOwnerRelationship(resource.id)
+                                .then(r => dischargeAnimal(resource.id))
                         }}>Discharge</button>
                     </details>
                 </div>

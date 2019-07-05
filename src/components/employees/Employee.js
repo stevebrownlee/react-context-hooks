@@ -28,7 +28,7 @@ export default props => {
 
         setAnimalCount(animals.filter(a => a.employeeId === resource.id).length)
         setLocation(locations.find(l => l.id === resource.locationId) || {})
-    }, [animals, locations])
+    }, [animals, locations, employees, resolveResource, props, resource])
 
 
     return (

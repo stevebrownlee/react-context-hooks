@@ -2,19 +2,19 @@ import { useState } from "react"
 
 const useModal = (selector) => {
 
-    const [isOpen, setIsOpen] = useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false)
 
     function toggleDialog() {
-        setIsOpen(!isOpen)
+        setIsOpen(!modalIsOpen)
 
-        if (isOpen) {
+        if (modalIsOpen) {
             document.querySelector(`${selector}`).removeAttribute("open")
         } else {
             document.querySelector(`${selector}`).setAttribute("open", true)
         }
     }
 
-    return { toggleDialog, isOpen }
+    return { toggleDialog, modalIsOpen }
 }
 
 export default useModal

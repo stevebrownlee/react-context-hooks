@@ -10,7 +10,7 @@ import "./cursor.css"
 
 export default (props) => {
     const searchInput = useRef()
-    const { toggleDialog } = useModal("#dialog--animal")
+    const { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
     const [searchEnabled, setSearchEnabled] = useState(false)
     const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
     let { filteredAnimals, search } = useContext(AnimalContext)
@@ -27,11 +27,12 @@ export default (props) => {
                 setSearchEnabled(true)
                 searchInput.current.focus()
 
-            // Close all dialogs when ESC is pressed
+            // Close all dialogs when ESC is pressed, and close search field
             } else if (e.keyCode === 27) {
-                console.log("closing dialog")
                 setSearchEnabled(false)
-                toggleDialog()
+                if (modalIsOpen) {
+                    toggleDialog()
+                }
             }
         }
 
