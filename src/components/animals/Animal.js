@@ -54,7 +54,7 @@ export default props => {
         }
 
         setMyOwners(animalOwners.filter(ao => ao.animalId === resource.id) || [])
-    }, [resource, animalOwners, animals])
+    }, [animalOwners, animals, props])
 
     const animal = resource || {}
 
