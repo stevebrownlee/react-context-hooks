@@ -7,11 +7,35 @@ import useResourceResolver from "../../hooks/resource/useResourceResolver";
 
 
 export default props => {
-    let className = "card animal"
-
     const { animals, dischargeAnimal } = useContext(AnimalContext)
     const { animalOwners, changeOwner, removeOwnerRelationship } = useContext(AnimalOwnerContext)
     const { owners } = useContext(OwnerContext)
+    const [detailsOpen, setDetailsOpen] = useState(false)
+    const [cardClasses, setCardClasses] = useState("card animal")
+
+
+    /*
+    Option 1: Resolve resource manually
+
+    let animal = {}
+    // If being rendered by the AnimalList component
+    if (props.hasOwnProperty("animal")) {
+        animal = props.animal
+    }
+
+    // If being rendered indepedently
+    if (props.hasOwnProperty("match") && props.match.params.animalId) {
+        className = "card animal--single"
+        animal = animals.find(a => a.id === parseInt(props.match.params.animalId)) || {}
+    }
+    const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
+    console.log(myOwners)
+  */
+
+
+    /*
+        Options 2: Resolve resource using the useResourceResolver hook
+    */
     const { resolveResource, resource } = useResourceResolver()
     const [myOwners, setMyOwners] = useState([])
 
@@ -23,18 +47,21 @@ export default props => {
             collection: animals
         })
 
+        // If being rendered indepedently
+        if (props.hasOwnProperty("match") && props.match.params.animalId) {
+            setCardClasses("card animal--single")
+            setDetailsOpen(true)
+        }
+
         setMyOwners(animalOwners.filter(ao => ao.animalId === resource.id) || [])
     }, [resource, animalOwners, animals])
 
+    const animal = resource || {}
 
-    // If being rendered indepedently
-    if (props.hasOwnProperty("match") && props.match.params.animalId) {
-        className = "card animal--single"
-    }
 
     return (
         <React.Fragment>
-            <li className={className} style={{ width: `18rem` }}>
+            <li className={cardClasses}>
                 <div className="card-body">
                     <div className="animal__header">
                         <h5 className="card-title">
@@ -45,13 +72,13 @@ export default props => {
                                     "color": "rgb(94, 78, 196)"
                                 }}
                                 onClick={() => {
-                                    props.showTreatmentHistory(resource)
-                                }}> {resource.name} </button>
+                                    props.showTreatmentHistory(animal)
+                                }}> {animal.name} </button>
                         </h5>
-                        <span className="card-text small">{resource.breed}</span>
+                        <span className="card-text small">{animal.breed}</span>
                     </div>
 
-                    <details>
+                    <details open={detailsOpen}>
                         <summary className="smaller">
                             <meter min="0" max="100" value={Math.random() * 100} low="25" high="75" optimum="100"></meter>
                         </summary>
@@ -59,18 +86,35 @@ export default props => {
                         <section>
                             <h6>Caretaker</h6>
                             <span className="small">{
-                                "employee" in resource
-                                    ? resource.employee.name
+                                "employee" in animal
+                                    ? animal.employee.name
                                     : ""
                             }</span>
                             <h6>Owners</h6>
                             <span className="small">
                                 {
                                     myOwners.reduce((p, c, idx) => {
-                                        return `${p} ${idx > 0 ? "and" : "Owned by "} ${c.owner.name}`
+                                        return `${p} ${idx > 0 ? "and" : "Owned by"} ${c.owner.name}`
                                     }, "")
                                 }
                             </span>
+
+                            {
+                                detailsOpen && "treatments" in animal
+                                ? <div className="small">
+                                        <h6>Treatment History</h6>
+                                        {
+                                            animal.treatments.map(t => (
+                                                <div key={t.id}>
+                                                    <p style={{fontWeight: "bolder", color: "grey"}}>{t.timestamp}</p>
+                                                    <p>{t.description}</p>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    : ""
+                            }
+
                         </section>
 
                         {
@@ -79,7 +123,7 @@ export default props => {
                                     name="owner"
                                     className="form-control small"
                                     onChange={e => {
-                                        changeOwner(resource.id, parseInt(e.target.value))
+                                        changeOwner(animal.id, parseInt(e.target.value))
                                     }} >
                                     <option value="">
                                         Select {myOwners.length === 1 ? "another" : "an"} owner
@@ -94,8 +138,8 @@ export default props => {
                         }
 
                         <button className="btn btn-warning mt-3 form-control small" onClick={() => {
-                            removeOwnerRelationship(resource.id)
-                                .then(r => dischargeAnimal(resource.id))
+                            removeOwnerRelationship(animal.id)
+                                .then(r => dischargeAnimal(animal.id))
                         }}>Discharge</button>
                     </details>
                 </div>
