@@ -6,10 +6,11 @@ import OwnerRepository from "../../repositories/OwnerRepository"
 export const OwnerContext = React.createContext()
 
 /*
- This component establishes what data can be used.
- */
+This component establishes what data can be used.
+*/
 export const OwnerProvider = props => {
     const [owners, setOwners] = useState([]);
+    const createAccount = user => OwnerRepository.createAccount(user)
 
     /*
         Load all owners when the component is mounted. Ensure that
@@ -20,7 +21,7 @@ export const OwnerProvider = props => {
     }, [])
 
     return (
-        <OwnerContext.Provider value={{owners}}>
+        <OwnerContext.Provider value={{ owners, createAccount }}>
             {props.children}
         </OwnerContext.Provider>
     )

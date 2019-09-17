@@ -13,7 +13,6 @@ export const AnimalProvider = props => {
 
     const search = subString => {
         const filter = animals.filter(a => a.name.toLocaleLowerCase().includes(subString))
-        console.log(animals)
         setFilteredAnimals(filter)
     }
 

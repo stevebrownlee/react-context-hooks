@@ -2,6 +2,14 @@ body {
     padding-top: 5em;
 }
 
+label {
+    margin-top: 1.25rem;
+}
+
+fieldset > button {
+    margin-top: 2rem;
+}
+
 h6 {
     margin-top: 0.5em;
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from "react"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
 import { OwnerContext } from "../providers/OwnerProvider"
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
+import useResourceResolver from "../../hooks/resource/useResourceResolver"
 
 
 export default props => {

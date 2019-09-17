@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { LocationContext } from "../providers/LocationProvider"
 import { EmployeeContext } from "../providers/EmployeeProvider"
+import useResourceResolver from "../../hooks/resource/useResourceResolver"
 import person from "./person.png"
 import "./Employee.css"
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
 
 
 export default props => {

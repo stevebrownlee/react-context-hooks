@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import Modal from "react-modal"
 import Employee from "./Employee"
 import { EmployeeContext } from "../providers/EmployeeProvider"
-import EmployeeForm from "./EmployeeForm";
+import EmployeeForm from "./EmployeeForm"
 import "./EmployeeList.css"
 
 
