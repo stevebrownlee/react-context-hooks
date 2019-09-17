@@ -1,6 +1,3 @@
-import sha256 from "crypto-js/sha256"
-import hmacSHA512 from "crypto-js/hmac-sha512"
-import Base64 from "crypto-js/enc-base64"
 import Settings from "./Settings"
 
 export default {
@@ -19,13 +16,7 @@ export default {
         return await data.json()
     },
     async findUser(un, pwd) {
-        const data = await fetch(`${Settings.remoteURL}/owners?email=${un}&password=${pwd}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify("")
-        })
+        const data = await fetch(`${Settings.remoteURL}/owners?email=${un}&password=${pwd}`)
         return await data.json()
     },
     async delete(id) {

@@ -53,8 +53,9 @@ export default props => {
             setDetailsOpen(true)
         }
 
-        setMyOwners(animalOwners.filter(ao => ao.animalId === resource.id) || [])
-    }, [animalOwners, animals, props])
+        const foundOwners = animalOwners.filter(ao => ao.animalId === resource.id) || []
+        setMyOwners(foundOwners)
+    }, [animalOwners, animals, props, resource])
 
     const animal = resource || {}
 
