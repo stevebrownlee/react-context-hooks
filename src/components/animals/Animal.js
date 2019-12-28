@@ -39,29 +39,29 @@ export default props => {
     const { resolveResource, resource } = useResourceResolver()
     const [myOwners, setMyOwners] = useState([])
 
+    resolveResource({
+        props: props,
+        property: "animal",
+        param: "animalId",
+        collection: animals
+    })
+
+    // If being rendered indepedently
+    if ("match" in props && props.match.params.animalId) {
+        setCardClasses("card animal--single")
+        setDetailsOpen(true)
+    }
+
     useEffect(() => {
-        resolveResource({
-            props: props,
-            property: "animal",
-            param: "animalId",
-            collection: animals
-        })
-
-        // If being rendered indepedently
-        if (props.hasOwnProperty("match") && props.match.params.animalId) {
-            setCardClasses("card animal--single")
-            setDetailsOpen(true)
-        }
-
         const foundOwners = animalOwners.filter(ao => ao.animalId === resource.id) || []
         setMyOwners(foundOwners)
-    }, [animalOwners, animals, props, resource])
+    }, [animalOwners])
 
     const animal = resource || {}
 
 
     return (
-        <React.Fragment>
+        <>
             <li className={cardClasses}>
                 <div className="card-body">
                     <div className="animal__header">
@@ -110,11 +110,9 @@ export default props => {
                                         }} >
                                         <option value="">
                                             Select {myOwners.length === 1 ? "another" : "an"} owner
-                                    </option>
+                                        </option>
                                         {
-                                            owners.map(o => (
-                                                <option key={o.id} value={o.id}> {o.name} </option>
-                                            ))
+                                            owners.map(o => <option key={o.id} value={o.id}>{o.name}</option>)
                                         }
                                     </select>
                                     : null
@@ -139,13 +137,12 @@ export default props => {
 
                         </section>
 
-                        <button className="btn btn-warning mt-3 form-control small" onClick={() => {
-                            removeOwnerRelationship(animal.id)
-                                .then(r => dischargeAnimal(animal.id))
-                        }}>Discharge</button>
+                        <button className="btn btn-warning mt-3 form-control small" onClick={() =>
+                            removeOwnerRelationship(animal.id).then(r => dischargeAnimal(animal.id))
+                        }>Discharge</button>
                     </details>
                 </div>
             </li>
-        </React.Fragment>
+        </>
     )
 }

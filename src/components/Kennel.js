@@ -6,10 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 
 export default () => (
-    <React.Fragment>
+    <>
         <Route render={props => (
             <NavBar {...props} />
         )} />
         <ApplicationViews />
-    </React.Fragment>
+    </>
 )

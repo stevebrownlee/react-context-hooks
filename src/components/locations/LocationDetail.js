@@ -25,7 +25,7 @@ export default props => {
                     Currently caring for
                     {
                         locationAnimals.map((a, idx, arr) =>
-                            <span>
+                            <span key={idx}>
                                 {idx > 0 && ", "}
                                 <Link to={`/animals/${a.id}`}> {a.name}</Link>
                             </span>

@@ -18,6 +18,9 @@ export default props => {
     const [ location, setLocation ] = useState({})
     const [ animalCount, setAnimalCount ] = useState(0)
 
+    setAnimalCount(animals.filter(a => a.employeeId === resource.id).length)
+    setLocation(locations.find(l => l.id === resource.locationId) || {})
+
     useEffect(() => {
         resolveResource({
             props: props,
@@ -26,8 +29,6 @@ export default props => {
             collection: employees
         })
 
-        setAnimalCount(animals.filter(a => a.employeeId === resource.id).length)
-        setLocation(locations.find(l => l.id === resource.locationId) || {})
     }, [animals, locations, employees, resolveResource, props, resource])
 
 

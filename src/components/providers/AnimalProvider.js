@@ -46,7 +46,6 @@ export const AnimalProvider = props => {
             setAnimals(animals)
             setFilteredAnimals(animals)
         })
-
     }, [])
 
     return (

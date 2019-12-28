@@ -1,25 +1,25 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useRef } from "react"
 import { EmployeeContext } from "../providers/EmployeeProvider"
 import { LocationContext } from "../providers/LocationProvider"
 import "./EmployeeForm.css"
 
 
 export default (props) => {
-    const [name, setName] = useState("")
-    const [location, setLocation] = useState(0)
+    const [name, setName] = useRef("")
+    const [location, setLocation] = useRef(0)
 
     const { locations } = useContext(LocationContext)
     const { hireEmployee } = useContext(EmployeeContext)
 
     const constructNewEmployee = () => {
-        const lId = parseInt(location)
+        const locationId = parseInt(location.current.value)
 
-        if (lId === 0) {
+        if (locationId === 0) {
             window.alert("Please select a location")
         } else {
             hireEmployee({
-                name: name,
-                locationId: lId
+                name: name.current.value,
+                locationId: locationId
             })
         }
     }
@@ -34,8 +34,8 @@ export default (props) => {
                         type="text"
                         required
                         autoFocus
+                        ref={name}
                         className="form-control"
-                        onChange={e => setName(e.target.value)}
                         placeholder="Employee name"
                     />
                 </div>
@@ -44,8 +44,8 @@ export default (props) => {
                     <select
                         defaultValue=""
                         name="location"
+                        ref={location}
                         className="form-control"
-                        onChange={e => setLocation(e.target.value)}
                     >
                         <option value="">Select a location</option>
                         {locations.map(e => (

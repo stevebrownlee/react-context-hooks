@@ -8,38 +8,27 @@ import "./AnimalList.css"
 import "./cursor.css"
 
 
-export default (props) => {
-    const searchInput = useRef()
-    const { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
-    const [searchEnabled, setSearchEnabled] = useState(false)
-    const [currentAnimal, setCurrentAnimal] = useState({treatments:[]})
+const AnimalListComponent = (props) => {
+    const [currentAnimal, setCurrentAnimal] = useState({ treatments: [] })
     let { filteredAnimals, search } = useContext(AnimalContext)
+    let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
 
-    const showTreatmentHistory = (animal) => {
+    const showTreatmentHistory = animal => {
         setCurrentAnimal(animal)
         toggleDialog()
     }
 
     useEffect(() => {
         const handler = e => {
-            // Open search field
-            if (e.keyCode === 70 && e.shiftKey && e.altKey) {
-                setSearchEnabled(true)
-                searchInput.current.focus()
-
-            // Close all dialogs when ESC is pressed, and close search field
-            } else if (e.keyCode === 27) {
-                setSearchEnabled(false)
-                if (modalIsOpen) {
-                    toggleDialog()
-                }
+            if (e.keyCode === 27 && modalIsOpen) {
+                toggleDialog()
             }
         }
 
         window.addEventListener("keyup", handler)
 
         return () => window.removeEventListener("keyup", handler)
-    }, [toggleDialog])
+    }, [toggleDialog, modalIsOpen])
 
 
     return (
@@ -54,27 +43,16 @@ export default (props) => {
                 </button>
             </div>
 
-            <div className="cursor" open={searchEnabled}>
-                <input type="text"
-                    className="rq-form-element"
-                    placeholder="Search text"
-                    onKeyUp={(e) => {
-                        if (e.keyCode === 27) {
-                            searchInput.current.value = ""
-                        }
-                        search(searchInput.current.value)
-                    }}
-                    ref={searchInput} />
-                <i></i>
-            </div>
-
             <ul className="animals">
-                {filteredAnimals.map(a =>
-                    <Animal
-                        showTreatmentHistory={showTreatmentHistory}
-                        key={a.id}
-                        animal={a} />)}
+                {
+                    filteredAnimals.map(a =>
+                        <Animal key={a.id} animal={a}
+                            showTreatmentHistory={showTreatmentHistory}
+                        />)
+                }
             </ul>
         </React.Fragment>
     )
 }
+
+export { AnimalListComponent }

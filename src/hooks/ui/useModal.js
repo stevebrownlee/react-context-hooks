@@ -4,7 +4,7 @@ const useModal = (selector) => {
 
     const [modalIsOpen, setIsOpen] = useState(false)
 
-    function toggleDialog() {
+    const toggleDialog = () => {
         setIsOpen(!modalIsOpen)
 
         if (modalIsOpen) {

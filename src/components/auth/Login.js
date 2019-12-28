@@ -13,8 +13,6 @@ const Login = props => {
     // Simplistic handler for login submit
     const handleLogin = (e) => {
         e.preventDefault()
-
-        console.log(remember.current.value)
         const storage = remember.current.value !== "on" ? localStorage : sessionStorage
 
         /*

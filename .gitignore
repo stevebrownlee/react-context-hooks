@@ -8,3 +8,4 @@ obj
 *.sqlite3
 .vscode
 dist
+build
