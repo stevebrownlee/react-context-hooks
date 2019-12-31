@@ -22,9 +22,9 @@ import LocationDetail from "./locations/LocationDetail"
 import Employee from "./employees/Employee"
 import EmployeeList from "./employees/EmployeeList"
 
-export default () => {
+export default (props) => {
     return (
-        <React.Fragment>
+        <>
             <AnimalProviders>
                 <AuthRoute exact path="/animals" Destination={AnimalListComponent} />
                 <AuthRoute path="/animals/:animalId(\d+)" Destination={Animal} />
@@ -38,8 +38,8 @@ export default () => {
                 }} />
             </EmployeeProviders>
 
-            <LocationProviders>
-                <Route exact path="/" component={LocationList} />
+            <LocationProviders {...props}>
+                <AuthRoute exact path="/" component={LocationList} />
                 <Route exact path="/locations" component={LocationList} />
                 <Route path="/locations/:locationId(\d+)" render={(props) => {
                     return <LocationDetail {...props} />
@@ -53,6 +53,6 @@ export default () => {
 
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
-        </React.Fragment>
+        </>
     )
 }

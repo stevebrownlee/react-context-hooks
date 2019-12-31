@@ -7,7 +7,14 @@ export const LocationProvider = props => {
     const [locations, setLocations] = useState([])
 
     useEffect(() => {
-        LocationRepository.getAll().then(setLocations)
+        LocationRepository.getAll()
+        .then(packet => {
+            if (packet.tokenStatus === "valid") {
+                return packet.data
+            }
+            "history" in props && props.history.push("/login")
+        })
+        .then(setLocations)
     }, [])
 
     return (

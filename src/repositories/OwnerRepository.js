@@ -1,32 +1,20 @@
 import Settings from "./Settings"
+import { fetchIt } from "../components/providers/Fetch"
 
 export default {
     async get(id) {
-        const e = await fetch(`${Settings.remoteURL}/owners/${id}`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/users/${id}`)
     },
     async createAccount(user) {
-        const data = await fetch(`${Settings.remoteURL}/owners`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-        return await data.json()
+        return await fetchIt(`${Settings.remoteURL}/users`, "POST", JSON.stringify(user))
     },
     async findUser(un, pwd) {
-        const data = await fetch(`${Settings.remoteURL}/owners?email=${un}&password=${pwd}`)
-        return await data.json()
+        return await fetchIt(`${Settings.remoteURL}/users?email=${un}&password=${pwd}`)
     },
     async delete(id) {
-        const e = await fetch(`${Settings.remoteURL}/owners/${id}`, {
-            method: "DELETE"
-        })
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/users/${id}`, "DELETE")
     },
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/owners`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/users`)
     }
 }

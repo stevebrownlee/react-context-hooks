@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react"
 import AnimalRepository from "../../repositories/AnimalRepository"
 
-// The context is imported and used by individual components that need data
 export const AnimalContext = React.createContext()
 
-/*
- This component establishes what data can be used.
- */
 export const AnimalProvider = props => {
     const [animals, setAnimals] = useState([])
     const [filteredAnimals, setFilteredAnimals] = useState([])
@@ -16,9 +12,6 @@ export const AnimalProvider = props => {
         setFilteredAnimals(filter)
     }
 
-    /*
-        Delete specified animal, then reload from API
-    */
     const dischargeAnimal = id => AnimalRepository.delete(id)
         .then(AnimalRepository.getAll)
         .then((animals) => {
@@ -26,9 +19,6 @@ export const AnimalProvider = props => {
             setFilteredAnimals(animals)
         })
 
-    /*
-        Add specified animal, then reload from API
-    */
     const addAnimal = animal => AnimalRepository.addAnimal(animal)
         .then(AnimalRepository.getAll)
         .then((animals) => {
@@ -36,12 +26,14 @@ export const AnimalProvider = props => {
             setFilteredAnimals(animals)
         })
 
-    /*
-        Load all animals when the component is mounted. Ensure that
-        an empty array is the second argument to avoid infinite loop.
-    */
     useEffect(() => {
         AnimalRepository.getAll()
+        .then(packet => {
+            if (packet.tokenStatus === "valid") {
+                return packet.data
+            }
+            "history" in props && props.history.push("/login")
+        })
         .then((animals) => {
             setAnimals(animals)
             setFilteredAnimals(animals)
@@ -60,4 +52,3 @@ export const AnimalProvider = props => {
         </AnimalContext.Provider>
     )
 }
-

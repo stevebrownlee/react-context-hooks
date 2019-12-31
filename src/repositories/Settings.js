@@ -1,5 +1,5 @@
 export default {
   remoteURL: "http://localhost:5002",
-  secretKey: "j249tuhvy8vh9cqujwcnthv9rjqichv293jcb2yuvci1cyubfvuybweu"
+  secretKey: "73c588116202bc8cf3b2da5cfa88f3ffa948ace1"
 //   remoteURL: "http://kennelapi.nss.team"
 }

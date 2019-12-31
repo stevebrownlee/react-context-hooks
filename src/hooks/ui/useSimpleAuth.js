@@ -6,8 +6,8 @@ const useSimpleAuth = () => {
 
     const isAuthenticated = () =>
         loggedIn
-        || localStorage.getItem("credentials") !== null
-        || sessionStorage.getItem("credentials") !== null
+        || localStorage.getItem("kennel_token") !== null
+        || sessionStorage.getItem("kennel_token") !== null
 
     const register = (email, password) => {
         fetch("http://localhost:5002/register", {
@@ -43,7 +43,7 @@ const useSimpleAuth = () => {
         sessionStorage.removeItem("credentials")
     }
 
-    return { isAuthenticated, logout, login }
+    return { isAuthenticated, logout, login, register }
 }
 
 export default useSimpleAuth

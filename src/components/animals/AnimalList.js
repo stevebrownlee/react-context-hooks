@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Animal from "./Animal"
 import AnimalDialog from "./AnimalDialog"
 import { AnimalContext } from "../providers/AnimalProvider"
@@ -8,9 +8,9 @@ import "./AnimalList.css"
 import "./cursor.css"
 
 
-const AnimalListComponent = (props) => {
+export const AnimalListComponent = (props) => {
     const [currentAnimal, setCurrentAnimal] = useState({ treatments: [] })
-    let { filteredAnimals, search } = useContext(AnimalContext)
+    let { filteredAnimals } = useContext(AnimalContext)
     let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
 
     const showTreatmentHistory = animal => {
@@ -32,7 +32,7 @@ const AnimalListComponent = (props) => {
 
 
     return (
-        <React.Fragment>
+        <>
             <AnimalDialog toggleDialog={toggleDialog} animal={currentAnimal} />
 
             <div className="centerChildren btn--newResource">
@@ -51,8 +51,6 @@ const AnimalListComponent = (props) => {
                         />)
                 }
             </ul>
-        </React.Fragment>
+        </>
     )
 }
-
-export { AnimalListComponent }

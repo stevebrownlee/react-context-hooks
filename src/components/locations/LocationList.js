@@ -4,7 +4,7 @@ import Location from "./Location"
 import "./LocationList.css"
 
 
-export default () => {
+const LocationList = () => {
     const { locations } = useContext(LocationContext)
 
     return (
@@ -13,3 +13,5 @@ export default () => {
         </div>
     )
 }
+
+export default LocationList

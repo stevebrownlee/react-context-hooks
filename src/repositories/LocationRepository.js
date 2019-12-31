@@ -1,19 +1,14 @@
 import Settings from "./Settings"
+import { fetchIt } from "../components/providers/Fetch"
 
 export default {
     async get(id) {
-        const e = await fetch(`${Settings.remoteURL}/locations/${id}`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/locations/${id}`)
     },
     async delete(id) {
-        const e = await fetch(`${Settings.remoteURL}/locations/${id}`, {
-            method: "DELETE"
-        })
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/locations/${id}`, "DELETE")
     },
-
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/locations`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/locations`)
     }
 }

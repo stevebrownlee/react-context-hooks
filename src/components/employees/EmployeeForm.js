@@ -1,12 +1,12 @@
-import React, { useState, useContext, useRef } from "react"
+import React, { useContext, useRef } from "react"
 import { EmployeeContext } from "../providers/EmployeeProvider"
 import { LocationContext } from "../providers/LocationProvider"
 import "./EmployeeForm.css"
 
 
 export default (props) => {
-    const [name, setName] = useRef("")
-    const [location, setLocation] = useRef(0)
+    const [name] = useRef("")
+    const [location] = useRef(0)
 
     const { locations } = useContext(LocationContext)
     const { hireEmployee } = useContext(EmployeeContext)

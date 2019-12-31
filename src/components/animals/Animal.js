@@ -1,10 +1,8 @@
-import "./AnimalCard.css"
-import React, { useEffect, useContext, useState } from "react"
+import React, { useContext, useState } from "react"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
 import { OwnerContext } from "../providers/OwnerProvider"
-import useResourceResolver from "../../hooks/resource/useResourceResolver"
-
+import "./AnimalCard.css"
 
 export default props => {
     const { animals, dischargeAnimal } = useContext(AnimalContext)
@@ -13,11 +11,8 @@ export default props => {
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [cardClasses, setCardClasses] = useState("card animal")
 
-
-    /*
-    Option 1: Resolve resource manually
-
     let animal = {}
+
     // If being rendered by the AnimalList component
     if (props.hasOwnProperty("animal")) {
         animal = props.animal
@@ -25,40 +20,12 @@ export default props => {
 
     // If being rendered indepedently
     if (props.hasOwnProperty("match") && props.match.params.animalId) {
-        className = "card animal--single"
         animal = animals.find(a => a.id === parseInt(props.match.params.animalId)) || {}
-    }
-    const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
-    console.log(myOwners)
-  */
-
-
-    /*
-        Options 2: Resolve resource using the useResourceResolver hook
-    */
-    const { resolveResource, resource } = useResourceResolver()
-    const [myOwners, setMyOwners] = useState([])
-
-    resolveResource({
-        props: props,
-        property: "animal",
-        param: "animalId",
-        collection: animals
-    })
-
-    // If being rendered indepedently
-    if ("match" in props && props.match.params.animalId) {
         setCardClasses("card animal--single")
         setDetailsOpen(true)
     }
 
-    useEffect(() => {
-        const foundOwners = animalOwners.filter(ao => ao.animalId === resource.id) || []
-        setMyOwners(foundOwners)
-    }, [animalOwners])
-
-    const animal = resource || {}
-
+    const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
 
     return (
         <>
@@ -95,7 +62,7 @@ export default props => {
                             <span className="small">
                                 {
                                     myOwners.reduce((p, c, idx) => {
-                                        return `${p} ${idx > 0 ? "and" : "Owned by"} ${c.owner.name}`
+                                        return `${p} ${idx > 0 ? "and" : "Owned by"} ${c.user.name}`
                                     }, "")
                                 }
                             </span>

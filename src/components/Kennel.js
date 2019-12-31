@@ -10,6 +10,8 @@ export default () => (
         <Route render={props => (
             <NavBar {...props} />
         )} />
-        <ApplicationViews />
+        <Route render={props => (
+            <ApplicationViews {...props} />
+        )} />
     </>
 )

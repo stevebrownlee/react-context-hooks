@@ -1,13 +1,14 @@
 export const fetchIt = (url, method = "GET", body = null) => {
     let options = {
-        "method": method
+        "method": method,
+        "headers": {}
     }
 
     switch (method) {
         case "POST":
         case "PUT":
             options.headers = {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             }
             break;
         default:
@@ -18,12 +19,28 @@ export const fetchIt = (url, method = "GET", body = null) => {
         options.body = body
     }
 
-    return fetch(url, options).then(r => r.json())
+    options.headers.Authorization = `Bearer ${localStorage.getItem("kennel_token")}`
+
+    return fetch(url, options).then(r => {
+        let tokenStatus = "valid"
+        if (r.status === 401) {
+            tokenStatus = "invalid"
+            localStorage.removeItem("kennel_token")
+            document.querySelector("#root").dispatchEvent( new CustomEvent("invalidToken") )
+        }
+        return {
+            tokenStatus,
+            data: r.json()
+        }
+    })
+
 }
 
 export const request = {
     init(url) {
         this.options = {}
+        this.options.headers = {}
+        this.options.headers.Authorization = `Bearer ${localStorage.getItem("kennel_token")}`
         this.url = url
     },
 
@@ -36,10 +53,8 @@ export const request = {
     post(url) {
         this.init(url)
         this.options.method = "POST"
-        this.options.headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+        this.options.headers["Content-Type"] = "application/json"
+        this.options.headers["Accept"] = "application/json"
         return this
     },
 

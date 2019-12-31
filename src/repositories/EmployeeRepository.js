@@ -1,30 +1,17 @@
 import Settings from "./Settings"
+import { fetchIt } from "../components/providers/Fetch"
 
 export default {
     async get(id) {
-        const e = await fetch(`${Settings.remoteURL}/employees/${id}`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/employees/${id}`)
     },
     async delete(id) {
-        const e = await fetch(`${Settings.remoteURL}/employees/${id}`, {
-            method: "DELETE"
-        })
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/employees/${id}`, "DELETE")
     },
     async addEmployee(employee) {
-        const data = await fetch(`${Settings.remoteURL}/employees`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(employee)
-        })
-
-        return await data.json()
+        return await fetchIt(`${Settings.remoteURL}/employees`, "POST", JSON.stringify(employee))
     },
-
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/employees`)
-        return await e.json()
+        return await fetchIt(`${Settings.remoteURL}/employees`)
     }
 }

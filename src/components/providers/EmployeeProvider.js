@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeRepository from "../../repositories/EmployeeRepository"
 
-
-// The context is imported and used by individual components that need data
 export const EmployeeContext = React.createContext()
 
-/*
- This component establishes what data can be used.
- */
 export const EmployeeProvider = props => {
     const [employees, setEmployees] = useState([]);
 
@@ -19,12 +14,15 @@ export const EmployeeProvider = props => {
         .then(EmployeeRepository.getAll)
         .then(setEmployees)
 
-    /*
-        Load all employees when the component is mounted. Ensure that
-        an empty array is the second argument to avoid infinite loop.
-    */
     useEffect(() => {
-        EmployeeRepository.getAll().then(setEmployees)
+        EmployeeRepository.getAll()
+        .then(packet => {
+            if (packet.tokenStatus === "valid") {
+                return packet.data
+            }
+            "history" in props && props.history.push("/login")
+        })
+        .then(setEmployees)
     }, [])
 
     return (
