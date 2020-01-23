@@ -10,9 +10,15 @@ export const EmployeeProvider = props => {
         .then(EmployeeRepository.getAll)
         .then(setEmployees)
 
-    const hireEmployee = employee => EmployeeRepository.addEmployee(employee)
-        .then(EmployeeRepository.getAll)
-        .then(setEmployees)
+    const hireEmployee = employee => fetch("http://localhost:8088/employees", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(employee)
+    })
+    .then(EmployeeRepository.getAll)
+    .then(setEmployees)
 
     useEffect(() => {
         EmployeeRepository.getAll()

@@ -25,7 +25,7 @@ export default (props) => {
     }
 
     return (
-        <React.Fragment>
+        <>
             <form className="employeeForm">
                 <h2 className="employeeForm__title">New Employee</h2>
                 <div className="form-group">
@@ -47,7 +47,7 @@ export default (props) => {
                         ref={location}
                         className="form-control"
                     >
-                        <option value="">Select a location</option>
+                        <option value="0">Select a location</option>
                         {locations.map(e => (
                             <option key={e.id} value={e.id}>
                                 {e.name}
@@ -65,6 +65,6 @@ export default (props) => {
                     }
                     className="btn btn-primary"> Save Employee </button>
             </form>
-        </React.Fragment>
+        </>
     )
 }
