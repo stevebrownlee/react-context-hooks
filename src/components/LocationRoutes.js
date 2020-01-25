@@ -8,14 +8,12 @@ import LocationDetail from "./locations/LocationDetail"
 
 export default (props) => {
     return (
-        <>
-            <LocationProviders {...props}>
-                <AuthRoute exact path="/" component={LocationList} />
-                <AuthRoute exact path="/locations" component={LocationList} />
-                <Route path="/locations/:locationId(\d+)" render={(props) => {
-                    return <LocationDetail {...props} />
-                }} />
-            </LocationProviders>
-        </>
+        <LocationProviders {...props}>
+            <AuthRoute exact path="/" Destination={LocationList} />
+            <AuthRoute exact path="/locations" Destination={LocationList} />
+            <Route path="/locations/:locationId(\d+)" render={(props) => {
+                return <LocationDetail {...props} />
+            }} />
+        </LocationProviders>
     )
 }

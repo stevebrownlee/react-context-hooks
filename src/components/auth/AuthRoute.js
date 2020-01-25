@@ -11,7 +11,7 @@ const AuthRoute = ({ path, Destination }) => {
             if (isAuthenticated()) {
                 return <Destination {...props} />
             } else {
-                return <Login />
+                return <Login  {...props} />
             }
         }} />
     )

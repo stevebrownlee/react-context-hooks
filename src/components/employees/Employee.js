@@ -8,29 +8,13 @@ import person from "./person.png"
 import "./Employee.css"
 
 
-export default props => {
+export default ({ employee, fireEmployee }) => {
 
     const { animals } = useContext(AnimalContext)
     const { locations } = useContext(LocationContext)
-    const { employees } = useContext(EmployeeContext)
-    const { resolveResource, resource } = useResourceResolver()
 
-    const [ location, setLocation ] = useState({})
-    const [ animalCount, setAnimalCount ] = useState(0)
-
-    setAnimalCount(animals.filter(a => a.employeeId === resource.id).length)
-    setLocation(locations.find(l => l.id === resource.locationId) || {})
-
-    useEffect(() => {
-        resolveResource({
-            props: props,
-            property: "employee",
-            param: "employeeId",
-            collection: employees
-        })
-
-    }, [animals, locations, employees, resolveResource, props, resource])
-
+    const animalCount = animals.filter(a => a.employeeId === employee.id).length
+    const location = locations.find(l => l.id === employee.locationId) || {}
 
     return (
         <article className="card employee" style={{ width: `18rem` }}>
@@ -39,10 +23,10 @@ export default props => {
                 <h5 className="card-title">
                     <Link className="card-link"
                         to={{
-                            pathname: `/employees/${resource.id}`,
-                            state: { employee: resource }
+                            pathname: `/employees/${employee.id}`,
+                            state: { employee: employee }
                         }}>
-                        {resource.name}
+                        {employee.name}
                     </Link>
                 </h5>
                 <section>
@@ -53,7 +37,7 @@ export default props => {
                 </section>
 
                 <button className="btn--fireEmployee"
-                        onClick={() => props.fireEmployee(resource.id)} >Fire</button>
+                        onClick={() => fireEmployee(employee.id)} >Fire</button>
             </section>
 
         </article>

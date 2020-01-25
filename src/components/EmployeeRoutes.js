@@ -8,13 +8,11 @@ import EmployeeList from "./employees/EmployeeList"
 
 export default (props) => {
     return (
-        <>
-            <EmployeeProviders>
-                <AuthRoute exact path="/employees" Destination={EmployeeList} />
-                <Route path="/employees/:employeeId(\d+)" render={(props) => {
-                    return <Employee {...props} />
-                }} />
-            </EmployeeProviders>
-        </>
+        <EmployeeProviders>
+            <AuthRoute exact path="/employees" Destination={EmployeeList} />
+            <Route path="/employees/:employeeId(\d+)" render={(props) => {
+                return <Employee {...props} />
+            }} />
+        </EmployeeProviders>
     )
 }
