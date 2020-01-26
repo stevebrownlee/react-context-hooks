@@ -9,7 +9,7 @@ import EmployeeForm from "./employees/EmployeeForm"
 export default () => {
     return (
         <EmployeeProviders>
-            <Route path="/employees" render={p => <EmployeeList {...p} />} />
+            <Route exact path="/employees" render={p => <EmployeeList {...p} />} />
             <Route path="/employees/create" render={p => <EmployeeForm {...p} />} />
             <Route path="/employees/:employeeId(\d+)" render={p => <Employee {...p} />} />
         </EmployeeProviders>

@@ -9,7 +9,7 @@ export default (props) => {
     return (
         <LocationProviders {...props}>
             <Route exact path="/" render={p => <LocationList {...p} />} />
-            <Route path="/locations" render={p => <LocationList {...p} />} />
+            <Route exact path="/locations" render={p => <LocationList {...p} />} />
             <Route path="/locations/:locationId(\d+)" render={p => <LocationDetail {...p} />} />
         </LocationProviders>
     )

@@ -35,53 +35,52 @@ export default (props) => {
     }
 
     return (
-        <React.Fragment>
-            <form className="animalForm">
-                <div className="form-group">
-                    <label htmlFor="animalName">Animal name</label>
-                    <input
-                        type="text"
-                        required
-                        autoFocus
-                        className="form-control"
-                        onChange={e => setName(e.target.value)}
-                        id="animalName"
-                        placeholder="Animal name"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="breed">Breed</label>
-                    <input
-                        type="text"
-                        required
-                        className="form-control"
-                        onChange={e => setBreed(e.target.value)}
-                        id="breed"
-                        placeholder="Breed"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="employee">Assign to caretaker</label>
-                    <select
-                        defaultValue=""
-                        name="employee"
-                        id="employeeId"
-                        className="form-control"
-                        onChange={e => setEmployeeId(e.target.value)}
-                    >
-                        <option value="">Select an employee</option>
-                        {employees.map(e => (
-                            <option key={e.id} id={e.id} value={e.id}>
-                                {e.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <button type="submit"
-                    onClick={constructNewAnimal}
-                    disabled={saveEnabled}
-                    className="btn btn-primary"> Submit </button>
-            </form>
-        </React.Fragment>
+        <form className="animalForm">
+            <h2>Admit Animal to a Kennel</h2>
+            <div className="form-group">
+                <label htmlFor="animalName">Animal name</label>
+                <input
+                    type="text"
+                    required
+                    autoFocus
+                    className="form-control"
+                    onChange={e => setName(e.target.value)}
+                    id="animalName"
+                    placeholder="Animal name"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="breed">Breed</label>
+                <input
+                    type="text"
+                    required
+                    className="form-control"
+                    onChange={e => setBreed(e.target.value)}
+                    id="breed"
+                    placeholder="Breed"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="employee">Make appointment with caretaker</label>
+                <select
+                    defaultValue=""
+                    name="employee"
+                    id="employeeId"
+                    className="form-control"
+                    onChange={e => setEmployeeId(e.target.value)}
+                >
+                    <option value="">Select an employee</option>
+                    {employees.map(e => (
+                        <option key={e.id} id={e.id} value={e.id}>
+                            {e.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <button type="submit"
+                onClick={constructNewAnimal}
+                disabled={saveEnabled}
+                className="btn btn-primary"> Submit </button>
+        </form>
     )
 }

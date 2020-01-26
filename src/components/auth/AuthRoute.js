@@ -1,6 +1,5 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
-import Login from "./Login"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 const AuthRoute = ({ path, component: TargetComponent }) => {
