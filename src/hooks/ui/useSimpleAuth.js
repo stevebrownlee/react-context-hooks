@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 const useSimpleAuth = () => {
-
     const [loggedIn, setIsLoggedIn] = useState(false)
 
     const isAuthenticated = () =>
@@ -24,7 +23,7 @@ const useSimpleAuth = () => {
     }
 
     const login = (email, password) => {
-        fetch("http://localhost:5002/login", {
+        return fetch("http://localhost:5002/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -33,14 +32,16 @@ const useSimpleAuth = () => {
         })
         .then(_ => _.json())
         .then(response => {
+            setIsLoggedIn(true)
             localStorage.setItem("kennel_token", response.accessToken)
         })
     }
 
     const logout = () => {
+        console.log("*** Toggling auth state and removing credentials ***")
         setIsLoggedIn(false)
-        localStorage.removeItem("credentials")
-        sessionStorage.removeItem("credentials")
+        localStorage.removeItem("kennel_token")
+        sessionStorage.removeItem("kennel_token")
     }
 
     return { isAuthenticated, logout, login, register }

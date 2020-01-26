@@ -71,7 +71,10 @@ export default (props) => {
                         <li className="nav-item dropdown">
                             {
                                 isAuthenticated()
-                                    ? <Link onClick={logout} className="nav-link" to="/login">Logout</Link>
+                                    ? <Link onClick={() => {
+                                        logout()
+                                        props.setAuth(false)
+                                    }} className="nav-link" to="/login">Logout</Link>
                                     : <Link className="nav-link" to="/login">Login</Link>
                             }
                         </li>

@@ -1,14 +1,17 @@
 import React, { useRef } from "react"
-import { withRouter } from "react-router-dom"
-import "./Login.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import "./Login.css"
 
 
 const Login = props => {
     const email = useRef()
     const password = useRef()
     const remember = useRef(false)
-    const { login } = useSimpleAuth()
+    const { login, isAuthenticated } = useSimpleAuth()
+
+    if (!isAuthenticated() && props.location.pathname !== "/login") {
+        props.history.push("/login")
+    }
 
     // Simplistic handler for login submit
     const handleLogin = (e) => {
@@ -19,11 +22,14 @@ const Login = props => {
             For now, just store the email and password that
             the customer enters into local storage.
         */
+        console.log("*** Initiate authentication ***")
         login(email.current.value, password.current.value, storage)
+            .then(() => {
+                console.log("*** Rerouting to root URL ***")
+                props.setAuth(true)
+                props.history.push("/")
+            })
 
-        props.history.push({
-            pathname: "/locations"
-        })
     }
 
     return (
@@ -61,4 +67,4 @@ const Login = props => {
         </main>
     )
 }
- export default withRouter(Login)
+ export default Login
