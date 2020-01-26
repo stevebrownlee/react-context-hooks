@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeRepository from "../../repositories/EmployeeRepository"
+import { fetchIt } from './Fetch';
 
 export const EmployeeContext = React.createContext()
 
@@ -10,15 +11,10 @@ export const EmployeeProvider = props => {
         .then(EmployeeRepository.getAll)
         .then(setEmployees)
 
-    const hireEmployee = employee => fetch("http://localhost:8088/employees", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(employee)
-    })
-    .then(EmployeeRepository.getAll)
-    .then(setEmployees)
+    const hireEmployee = employee =>
+        fetchIt("http://localhost:5002/employees", "POST", JSON.stringify(employee))
+            .then(EmployeeRepository.getAll)
+            .then(setEmployees)
 
     useEffect(() => {
         EmployeeRepository.getAll()

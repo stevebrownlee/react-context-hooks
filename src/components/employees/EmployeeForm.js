@@ -5,8 +5,8 @@ import "./EmployeeForm.css"
 
 
 export default (props) => {
-    const [name] = useRef("")
-    const [location] = useRef(0)
+    const name = useRef("")
+    const location = useRef(0)
 
     const { locations } = useContext(LocationContext)
     const { hireEmployee } = useContext(EmployeeContext)
@@ -21,6 +21,7 @@ export default (props) => {
                 name: name.current.value,
                 locationId: locationId
             })
+            .then(() => props.history.push("/employees"))
         }
     }
 
@@ -59,7 +60,6 @@ export default (props) => {
                     onClick={
                         evt => {
                             evt.preventDefault()
-                            props.setModalOpen(false)
                             constructNewEmployee()
                         }
                     }

@@ -1,17 +1,17 @@
 import React from "react"
-import AuthRoute from "./auth/AuthRoute"
+import { Route } from "react-router-dom"
 import Animal from "./animals/Animal"
 import AnimalForm from "./animals/AnimalForm"
 import { AnimalProviders } from "./providers/AnimalProviders"
 import { AnimalListComponent } from "./animals/AnimalList"
 
-export default (props) => {
+export default () => {
     return (
         <>
             <AnimalProviders>
-                <AuthRoute exact path="/animals" Destination={AnimalListComponent} />
-                <AuthRoute path="/animals/:animalId(\d+)" Destination={Animal} />
-                <AuthRoute path="/animals/new" Destination={AnimalForm} />
+                <Route exact path="/animals" render={p => <AnimalListComponent {...p} />} />
+                <Route exact path="/animals/:animalId(\d+)" render={p => <Animal {...p} />} />
+                <Route exact path="/animals/new" render={p => <AnimalForm {...p} />} />
             </AnimalProviders>
         </>
     )

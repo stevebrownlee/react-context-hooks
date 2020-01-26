@@ -26,7 +26,6 @@ export const fetchIt = (url, method = "GET", body = null) => {
         if (r.status === 401) {
             tokenStatus = "invalid"
             localStorage.removeItem("kennel_token")
-            // document.querySelector("#root").dispatchEvent( new CustomEvent("invalidToken") )
         }
         return {
             tokenStatus,
