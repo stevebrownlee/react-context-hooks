@@ -8,13 +8,13 @@ const useSimpleAuth = () => {
         || localStorage.getItem("kennel_token") !== null
         || sessionStorage.getItem("kennel_token") !== null
 
-    const register = (email, password) => {
-        fetch("http://localhost:5002/register", {
+    const register = (user) => {
+        return fetch("http://localhost:5002/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify(user)
         })
         .then(_ => _.json())
         .then(response => {

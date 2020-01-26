@@ -1,25 +1,16 @@
-import React, { useState } from "react"
+import React from "react"
 import { Route } from "react-router-dom"
-import NavBar from "./nav/NavBar"
-import ApplicationViews from "./ApplicationViews"
-import "bootstrap/dist/css/bootstrap.min.css"
-import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 import Login from "./auth/Login"
+import Register from "./auth/Register"
+import AuthRoute from "./auth/AuthRoute"
+import KennelApplication from "./KennelApplication"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 
 export default () => {
-    const { isAuthenticated } = useSimpleAuth()
-    const [auth, setAuth] = useState(false)
-
-    if (isAuthenticated()) {
-        console.log(("*** User is authenticated. Render Kennel app. ***"))
-        return <>
-            <Route render={p => <NavBar {...p} setAuth={setAuth} />} />
-            <Route render={p => <ApplicationViews {...p} />} />
-        </>
-
-    } else {
-        console.log(("*** User is not authenticated. Render Login. ***"))
-        return <Route render={p => <Login  {...p} setAuth={setAuth} />} />
-    }
+    return <>
+        <AuthRoute component={KennelApplication} />
+        <Route path="/login" render={p => <Login {...p} /> } />
+        <Route path="/register" render={p => <Register {...p} /> } />
+    </>
 }

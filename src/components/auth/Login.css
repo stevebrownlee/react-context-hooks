@@ -12,3 +12,7 @@
 input[name="remember"] {
     margin: 1em 0.5em 0 0;
 }
+
+.link--register {
+    margin-top: 2rem;
+}

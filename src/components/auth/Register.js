@@ -1,11 +1,6 @@
-import React, { useRef, useContext } from "react"
-import { withRouter } from "react-router-dom"
-import { OwnerContext } from "../providers/OwnerProvider"
-import AES from "crypto-js"
-import Settings from "../../repositories/Settings"
+import React, { useRef } from "react"
 import "./Login.css"
-
-
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 const Register = props => {
     const firstName = useRef()
@@ -13,25 +8,20 @@ const Register = props => {
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
-    const { createAccount } = useContext(OwnerContext)
-
+    const { register } = useSimpleAuth()
 
     const handleRegister = (e) => {
         e.preventDefault()
 
-        const message = password.current.value
-
         const newUser = {
-            firstName: firstName.current.value,
-            lastName: lastName.current.value,
+            name: `${firstName.current.value} ${lastName.current.value}`,
             email: email.current.value,
-            password: AES.encrypt(message, Settings.secretKey)
+            username: email.current.value,
+            password: password.current.value
         }
 
-        createAccount(newUser).then(() => {
-            props.history.push({
-                pathname: "/locations"
-            })
+        register(newUser).then(() => {
+            props.history.push("/")
         })
     }
 
@@ -88,4 +78,4 @@ const Register = props => {
         </main>
     )
 }
-export default withRouter(Register)
+export default Register

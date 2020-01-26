@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { AnimalContext } from "../providers/AnimalProvider"
 import { LocationContext } from "../providers/LocationProvider"

@@ -10,8 +10,8 @@ export default () => {
         <>
             <AnimalProviders>
                 <Route exact path="/animals" render={p => <AnimalListComponent {...p} />} />
-                <Route exact path="/animals/:animalId(\d+)" render={p => <Animal {...p} />} />
-                <Route exact path="/animals/new" render={p => <AnimalForm {...p} />} />
+                <Route path="/animals/:animalId(\d+)" render={p => <Animal {...p} />} />
+                <Route path="/animals/new" render={p => <AnimalForm {...p} />} />
             </AnimalProviders>
         </>
     )

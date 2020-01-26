@@ -73,7 +73,6 @@ export default (props) => {
                                 isAuthenticated()
                                     ? <Link onClick={() => {
                                         logout()
-                                        props.setAuth(false)
                                     }} className="nav-link" to="/login">Logout</Link>
                                     : <Link className="nav-link" to="/login">Login</Link>
                             }
