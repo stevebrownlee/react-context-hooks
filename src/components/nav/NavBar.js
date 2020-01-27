@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./NavBar.css"
 import AnimalRepository from "../../repositories/AnimalRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import Settings from "../../repositories/Settings";
+
 
 
 export default (props) => {
@@ -15,11 +17,11 @@ export default (props) => {
             const terms = document.querySelector("#searchTerms").value
             const foundItems = {}
 
-            fetch(`http://localhost:5002/employees?name_like=${encodeURI(terms)}`)
+            fetch(`${Settings.remoteURL}/employees?name_like=${encodeURI(terms)}`)
                 .then(r => r.json())
                 .then(employees => {
                     foundItems.employees = employees
-                    return fetch(`http://localhost:5002/locations?name_like=${encodeURI(terms)}`)
+                    return fetch(`${Settings.remoteURL}/locations?name_like=${encodeURI(terms)}`)
                 })
                 .then(r => r.json())
                 .then(locations => {

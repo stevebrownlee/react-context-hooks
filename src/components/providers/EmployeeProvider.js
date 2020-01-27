@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeRepository from "../../repositories/EmployeeRepository"
 import { fetchIt } from './Fetch';
+import Settings from '../../repositories/Settings';
 
 export const EmployeeContext = React.createContext()
 
@@ -12,7 +13,7 @@ export const EmployeeProvider = props => {
         .then(setEmployees)
 
     const hireEmployee = employee =>
-        fetchIt("http://localhost:5002/employees", "POST", JSON.stringify(employee))
+        fetchIt(`${Settings.remoteURL}/employees`, "POST", JSON.stringify(employee))
             .then(EmployeeRepository.getAll)
             .then(setEmployees)
 

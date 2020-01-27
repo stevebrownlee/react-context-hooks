@@ -6,6 +6,7 @@ import NavBar from "./nav/NavBar"
 import ApplicationViews from "./ApplicationViews"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 import "bootstrap/dist/css/bootstrap.min.css"
+import "./Kennel.css"
 
 
 export default () => {

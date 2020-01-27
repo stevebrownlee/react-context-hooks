@@ -1,4 +1,6 @@
 import { useState } from "react"
+import Settings from "../../repositories/Settings"
+
 
 const useSimpleAuth = () => {
     const [loggedIn, setIsLoggedIn] = useState(false)
@@ -9,7 +11,7 @@ const useSimpleAuth = () => {
         || sessionStorage.getItem("kennel_token") !== null
 
     const register = (user) => {
-        return fetch("http://localhost:5002/register", {
+        return fetch(`${Settings.remoteURL}/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -23,7 +25,7 @@ const useSimpleAuth = () => {
     }
 
     const login = (email, password) => {
-        return fetch("http://localhost:5002/login", {
+        return fetch(`${Settings.remoteURL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
