@@ -13,7 +13,7 @@ export default () => {
     const { isAuthenticated } = useSimpleAuth()
 
     return <>
-        <Route render={props => {
+        <Route render={() => {
             if (isAuthenticated()) {
                 return <>
                     <Route render={p => <NavBar {...p} />} />

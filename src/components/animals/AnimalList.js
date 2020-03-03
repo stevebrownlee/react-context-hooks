@@ -10,7 +10,10 @@ import "./cursor.css"
 
 export const AnimalListComponent = (props) => {
     const [currentAnimal, setCurrentAnimal] = useState({ treatments: [] })
+
     let { filteredAnimals } = useContext(AnimalContext)
+
+
     let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
 
     const showTreatmentHistory = animal => {
