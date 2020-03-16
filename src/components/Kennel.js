@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route, Redirect } from "react-router-dom"
 import Login from "./auth/Login"
 import Register from "./auth/Register"
@@ -10,11 +10,16 @@ import "./Kennel.css"
 
 
 export default () => {
-    const { isAuthenticated } = useSimpleAuth()
+    const { isAuthenticated, loggedIn } = useSimpleAuth()
+
+    useEffect(() => {
+        console.log("Check auth")
+        isAuthenticated()
+    }, [])
 
     return <>
         <Route render={() => {
-            if (isAuthenticated()) {
+            if (loggedIn) {
                 return <>
                     <Route render={p => <NavBar {...p} />} />
                     <Route render={p => <ApplicationViews {...p} />} />

@@ -37,6 +37,7 @@ const Login = props => {
                         <label htmlFor="inputEmail"> Email address </label>
                         <input ref={email} type="email"
                             id="email"
+                            defaultValue="steve@stevebrownlee.com"
                             className="form-control"
                             placeholder="Email address"
                             required autoFocus />
@@ -45,6 +46,7 @@ const Login = props => {
                         <label htmlFor="inputPassword"> Password </label>
                         <input ref={password} type="password"
                             id="password"
+                            defaultValue="Admin8*"
                             className="form-control"
                             placeholder="Password"
                             required />
