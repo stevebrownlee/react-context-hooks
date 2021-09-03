@@ -1,16 +1,13 @@
-import React, { useContext } from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { useOxfordList } from "../../hooks/string/useOxfordList"
-import { AnimalContext } from "../providers/AnimalProvider"
-import { EmployeeContext } from "../providers/EmployeeProvider"
-import { LocationContext } from "../providers/LocationProvider"
 import "./Location.css"
 
 
 export default props => {
-    const { animals } = useContext(AnimalContext)
-    const { employees } = useContext(EmployeeContext)
-    const { locations } = useContext(LocationContext)
+    const [animals, setAnimals] = useState([])
+    const [employees, updateEmployees] = useState([])
+    const [locations, defineLocations] = useState([])
 
     const locationId = parseInt(props.match.params.locationId)
     const location = locations.find(a => a.id === locationId) || {}
@@ -18,7 +15,7 @@ export default props => {
     const locationEmployees = employees.filter(e => e.locationId === locationId)
 
     return (
-        <React.Fragment>
+        <>
             <div className="jumbotron detailCard">
                 <h1 className="display-4">{location.name}</h1>
                 <p className="lead detailCard__lead">
@@ -44,6 +41,6 @@ export default props => {
                     {useOxfordList(locationEmployees)}
                 </p>
             </div>
-        </React.Fragment>
+        </>
     )
 }

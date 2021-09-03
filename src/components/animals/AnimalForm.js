@@ -1,17 +1,15 @@
 import React, { useState, useContext } from "react"
-import { AnimalContext } from "../providers/AnimalProvider"
-import { EmployeeContext } from "../providers/EmployeeProvider"
 import "./AnimalForm.css"
+import AnimalRepository from "../../repositories/AnimalRepository";
 
 
 export default (props) => {
     const [animalName, setName] = useState("")
     const [breed, setBreed] = useState("")
+    const [animals, setAnimals] = useState([])
+    const [employees, setEmployees] = useState([])
     const [employeeId, setEmployeeId] = useState(0)
     const [saveEnabled, setEnabled] = useState(false)
-
-    const { addAnimal } = useContext(AnimalContext)
-    const { employees } = useContext(EmployeeContext)
 
     const constructNewAnimal = evt => {
         evt.preventDefault()
@@ -28,7 +26,7 @@ export default (props) => {
                 locationId: parseInt(emp.locationId)
             }
 
-            addAnimal(animal)
+            AnimalRepository.addAnimal(animal)
                 .then(() => setEnabled(true))
                 .then(() => props.history.push("/animals"))
         }

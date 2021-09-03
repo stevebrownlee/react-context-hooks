@@ -1,13 +1,11 @@
 import React from "react"
 import { Route } from "react-router-dom"
-
-import { LocationProviders } from "./providers/LocationProviders"
-import {LocationList} from "./locations/LocationList"
+import { LocationList } from "./locations/LocationList"
 import LocationDetail from "./locations/LocationDetail"
 
-export default (props) => {
+export default () => {
     return (
-        <LocationProviders {...props}>
+        <>
             <Route exact path="/">
                 <LocationList />
             </Route>
@@ -17,6 +15,6 @@ export default (props) => {
             <Route path="/locations/:locationId(\d+)">
                 <LocationDetail />
             </Route>
-        </LocationProviders>
+        </>
     )
 }

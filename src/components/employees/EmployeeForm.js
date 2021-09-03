@@ -1,29 +1,36 @@
-import React, { useContext, useRef } from "react"
-import { EmployeeContext } from "../providers/EmployeeProvider"
-import { LocationContext } from "../providers/LocationProvider"
+import React, { useState } from "react"
+import EmployeeRepository from "../../repositories/EmployeeRepository";
 import "./EmployeeForm.css"
 
 
 export default (props) => {
-    const name = useRef("")
-    const location = useRef(0)
-
-    const { locations } = useContext(LocationContext)
-    const { hireEmployee } = useContext(EmployeeContext)
+    const [employee, updateEmployee] = useState()
+    const [locations, defineLocations] = useState([])
 
     const constructNewEmployee = () => {
-        const locationId = parseInt(location.current.value)
-
-        if (locationId === 0) {
+        if (employee.locationId === 0) {
             window.alert("Please select a location")
         } else {
-            hireEmployee({
-                name: name.current.value,
-                locationId: locationId
+            EmployeeRepository.addEmployee({
+                name: employee.name,
+                employee: true
+            })
+            .then(employee => {
+                EmployeeRepository.assignEmployee({
+                    employeeId: employee.id,
+                    locationId: employee.location
+                })
             })
             .then(() => props.history.push("/employees"))
         }
     }
+
+    const handleUserInput = (event) => {
+        const copy = {...employee}
+        copy[event.target.id] = event.target.value
+        updateEmployee(copy)
+    }
+
 
     return (
         <>
@@ -31,21 +38,19 @@ export default (props) => {
                 <h2 className="employeeForm__title">New Employee</h2>
                 <div className="form-group">
                     <label htmlFor="employeeName">Employee name</label>
-                    <input
+                    <input onChange={handleUserInput}
                         type="text"
                         required
                         autoFocus
-                        ref={name}
                         className="form-control"
                         placeholder="Employee name"
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="location">Assign to location</label>
-                    <select
+                    <select onChange={handleUserInput}
                         defaultValue=""
                         name="location"
-                        ref={location}
                         className="form-control"
                     >
                         <option value="0">Select a location</option>

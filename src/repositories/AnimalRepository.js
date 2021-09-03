@@ -1,5 +1,5 @@
 import Settings from "./Settings"
-import { fetchIt } from "../components/providers/Fetch"
+import { fetchIt } from "./Fetch"
 
 export default {
     async get(id) {

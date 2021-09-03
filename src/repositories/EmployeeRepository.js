@@ -1,5 +1,5 @@
 import Settings from "./Settings"
-import { fetchIt } from "../components/providers/Fetch"
+import { fetchIt } from "./Fetch"
 
 export default {
     async get(id) {
@@ -10,6 +10,9 @@ export default {
     },
     async addEmployee(employee) {
         return await fetchIt(`${Settings.remoteURL}/users`, "POST", JSON.stringify(employee))
+    },
+    async assignEmployee(rel) {
+        return await fetchIt(`${Settings.remoteURL}/employeeLocations`, "POST", JSON.stringify(rel))
     },
     async getAll() {
         return await fetchIt(`${Settings.remoteURL}/users?employee=true`)
