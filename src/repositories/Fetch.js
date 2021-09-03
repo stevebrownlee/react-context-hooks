@@ -19,17 +19,13 @@ export const fetchIt = (url, method = "GET", body = null) => {
         options.body = body
     }
 
-    options.headers.Authorization = `Bearer ${localStorage.getItem("kennel_token")}`
-
     return fetch(url, options).then(r => r.json())
-
 }
 
 export const request = {
     init(url) {
         this.options = {}
         this.options.headers = {}
-        this.options.headers.Authorization = `Bearer ${localStorage.getItem("kennel_token")}`
         this.url = url
     },
 

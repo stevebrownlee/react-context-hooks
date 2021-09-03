@@ -53,6 +53,3 @@ const useSimpleAuth = () => {
 }
 
 export default useSimpleAuth
-
-
-

@@ -3,25 +3,18 @@ import { Link, useParams } from "react-router-dom"
 import EmployeeRepository from "../../repositories/EmployeeRepository";
 import person from "./person.png"
 import "./Employee.css"
+import useResourceResolver from "../../hooks/resource/useResourceResolver";
 
 
 export default ({ employee }) => {
     const [animalCount, setCount] = useState(0)
     const [location, markLocation] = useState({ name: "" })
-    const [foundEmployee, assignEmployee] = useState({ id: 0 })
     const { employeeId } = useParams()
+    const { resolveResource, resource } = useResourceResolver()
 
     useEffect(() => {
-        if (employee && "id" in employee) {
-            assignEmployee(employee)
-        }
-    }, [employee])
-
-    useEffect(() => {
-        if (employeeId) {
-            EmployeeRepository.get(employeeId).then(e => assignEmployee(e))
-        }
-    }, [employeeId])
+       resolveResource(employee, employeeId, EmployeeRepository.get)
+    }, [])
 
     return (
         <article className="card employee" style={{ width: `18rem` }}>
@@ -30,10 +23,10 @@ export default ({ employee }) => {
                 <h5 className="card-title">
                     <Link className="card-link"
                         to={{
-                            pathname: `/employees/${foundEmployee.id}`,
-                            state: { employee: foundEmployee }
+                            pathname: `/employees/${resource.id}`,
+                            state: { employee: resource }
                         }}>
-                        {foundEmployee.name}
+                        {resource.name}
                     </Link>
                 </h5>
                 <section>

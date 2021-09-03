@@ -1,22 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const useResourceResolver = () => {
 
     const [resource, setResource] = useState({})
 
-    const resolveResource = ({ props, property, param, collection }) => {
-        let _resource = {}
+    useEffect(() => {
+       console.log('resource', resource)
+    }, [resource])
 
+    const resolveResource = (property, param, getter) => {
         // Resource passed as prop
-        if (props.hasOwnProperty(property)) {
-            _resource = props[property]
+        if (property && "id" in property) {
+            setResource(property)
         }
-
-        // If being rendered indepedently
-        if (props.hasOwnProperty("match") && props.match.params[param]) {
-            _resource = collection.find(e => e.id === parseInt(props.match.params[param])) || {}
+        else {
+            // If being rendered indepedently
+            if (param) {
+                getter(param).then(e => setResource(e))
+            }
         }
-        setResource(_resource)
     }
 
     return { resolveResource, resource }
