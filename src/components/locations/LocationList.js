@@ -1,11 +1,15 @@
-import React, { useContext } from "react"
-import { LocationContext } from "../providers/LocationProvider"
+import React, { useEffect, useState } from "react"
+import LocationRepository from "../../repositories/LocationRepository";
 import Location from "./Location"
 import "./LocationList.css"
 
 
-const LocationList = () => {
-    const { locations } = useContext(LocationContext)
+export const LocationList = () => {
+    const [ locations, updateLocations ] = useState([])
+
+    useEffect(() => {
+        LocationRepository.getAll().then(updateLocations)
+    }, [])
 
     return (
         <div className="locations">
@@ -13,5 +17,3 @@ const LocationList = () => {
         </div>
     )
 }
-
-export default LocationList

@@ -1,18 +1,13 @@
-import React, { useContext } from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import { AnimalContext } from "../providers/AnimalProvider"
-import { LocationContext } from "../providers/LocationProvider"
+import EmployeeRepository from "../../repositories/EmployeeRepository"
 import person from "./person.png"
 import "./Employee.css"
 
 
-export default ({ employee, fireEmployee }) => {
-
-    const { animals } = useContext(AnimalContext)
-    const { locations } = useContext(LocationContext)
-
-    const animalCount = animals.filter(a => a.employeeId === employee.id).length
-    const location = locations.find(l => l.id === employee.locationId) || {}
+export default ({ employee }) => {
+    const [ animalCount, setCount ] = useState(0)
+    const [ location, markLocation ] = useState({name:""})
 
     return (
         <article className="card employee" style={{ width: `18rem` }}>
@@ -35,7 +30,11 @@ export default ({ employee, fireEmployee }) => {
                 </section>
 
                 <button className="btn--fireEmployee"
-                        onClick={() => fireEmployee(employee.id)} >Fire</button>
+                        onClick={
+                            () => {
+                                EmployeeRepository.delete(employee.id)
+                            }
+                        } >Fire</button>
             </section>
 
         </article>

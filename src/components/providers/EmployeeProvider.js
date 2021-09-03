@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeRepository from "../../repositories/EmployeeRepository"
-import { fetchIt } from './Fetch';
-import Settings from '../../repositories/Settings';
 
 export const EmployeeContext = React.createContext()
 
@@ -11,11 +9,6 @@ export const EmployeeProvider = props => {
     const fireEmployee = id => EmployeeRepository.delete(id)
         .then(EmployeeRepository.getAll)
         .then(setEmployees)
-
-    const hireEmployee = employee =>
-        fetchIt(`${Settings.remoteURL}/employees`, "POST", JSON.stringify(employee))
-            .then(EmployeeRepository.getAll)
-            .then(setEmployees)
 
     useEffect(() => {
         EmployeeRepository.getAll()
@@ -29,7 +22,7 @@ export const EmployeeProvider = props => {
     }, [])
 
     return (
-        <EmployeeContext.Provider value={{employees, hireEmployee, fireEmployee}}>
+        <EmployeeContext.Provider value={{employees, fireEmployee}}>
             {props.children}
         </EmployeeContext.Provider>
     )

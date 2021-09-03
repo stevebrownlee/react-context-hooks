@@ -19,7 +19,7 @@ export default {
         return await e.json()
     },
     async getOwnersByAnimal (animalId) {
-        const e = await fetch(`${Settings.remoteURL}/animalOwners/?animalId=${animalId}`,
+        const e = await fetch(`${Settings.remoteURL}/animalOwners?animalId=${animalId}&_expand=user`,
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("kennel_token")}`
@@ -39,11 +39,7 @@ export default {
         return await e.json()
     },
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/animalOwners/?_expand=user&_expand=animal`, {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("kennel_token")}`
-            }
-        })
+        const e = await fetch(`${Settings.remoteURL}/animalOwners?_expand=user&user.employee=false&_expand=animal`)
         return await e.json()
     }
 }

@@ -21,17 +21,7 @@ export const fetchIt = (url, method = "GET", body = null) => {
 
     options.headers.Authorization = `Bearer ${localStorage.getItem("kennel_token")}`
 
-    return fetch(url, options).then(r => {
-        let tokenStatus = "valid"
-        if (r.status === 401) {
-            tokenStatus = "invalid"
-            localStorage.removeItem("kennel_token")
-        }
-        return {
-            tokenStatus,
-            data: r.json()
-        }
-    })
+    return fetch(url, options).then(r => r.json())
 
 }
 

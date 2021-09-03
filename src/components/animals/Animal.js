@@ -1,31 +1,19 @@
-import React, { useContext, useState } from "react"
-import { AnimalContext } from "../providers/AnimalProvider"
-import { AnimalOwnerContext } from "../providers/AnimalOwnerProvider"
-import { OwnerContext } from "../providers/OwnerProvider"
+import React, { useEffect, useState } from "react"
+import AnimalRepository from "../../repositories/AnimalRepository";
+import OwnerRepository from "../../repositories/OwnerRepository";
+import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";
 import "./AnimalCard.css"
 
-export default props => {
-    const { animals, dischargeAnimal } = useContext(AnimalContext)
-    const { animalOwners, changeOwner, removeOwnerRelationship } = useContext(AnimalOwnerContext)
-    const { owners } = useContext(OwnerContext)
+export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
+    const [owners, setOwners] = useState([])
+    const [myOwners, setPeople] = useState([])
     const [cardClasses, setCardClasses] = useState("card animal")
 
-    let animal = {}
-
-    // If being rendered by the AnimalList component
-    if (props.hasOwnProperty("animal")) {
-        animal = props.animal
-    }
-
-    // If being rendered indepedently
-    if (props.hasOwnProperty("match") && props.match.params.animalId) {
-        animal = animals.find(a => a.id === parseInt(props.match.params.animalId)) || {}
-        setCardClasses("card animal--single")
-        setDetailsOpen(true)
-    }
-
-    const myOwners = animalOwners.filter(ao => ao.animalId === animal.id) || []
+    useEffect(() => {
+        OwnerRepository.getAll().then(data => setOwners(data))
+        AnimalOwnerRepository.getOwnersByAnimal(animal.id).then(d => setPeople(d))
+    }, [])
 
     return (
         <>
@@ -40,7 +28,7 @@ export default props => {
                                     "color": "rgb(94, 78, 196)"
                                 }}
                                 onClick={() => {
-                                    props.showTreatmentHistory(animal)
+                                    showTreatmentHistory(animal)
                                 }}> {animal.name} </button>
                         </h5>
                         <span className="card-text small">{animal.breed}</span>
@@ -73,13 +61,15 @@ export default props => {
                                         name="owner"
                                         className="form-control small"
                                         onChange={e => {
-                                            changeOwner(animal.id, parseInt(e.target.value))
+                                            AnimalOwnerRepository.assignOwner(animal.id, parseInt(e.target.value))
+                                                .then(AnimalOwnerRepository.getAll)
+                                                .then(setAnimalOwners)
                                         }} >
                                         <option value="">
-                                            Select {myOwners.length === 1 ? "another" : "an"} owner
+                                            Select {animalOwners.length === 1 ? "another" : "an"} owner
                                         </option>
                                         {
-                                            owners.map(o => <option key={o.id} value={o.id}>{o.name}</option>)
+                                            animalOwners.map(o => <option key={o.id} value={o.id}>{o.user.name}</option>)
                                         }
                                     </select>
                                     : null
@@ -105,7 +95,9 @@ export default props => {
                         </section>
 
                         <button className="btn btn-warning mt-3 form-control small" onClick={() =>
-                            removeOwnerRelationship(animal.id).then(r => dischargeAnimal(animal.id))
+                            AnimalOwnerRepository
+                                .removeOwnerRelationship(animal.id)
+                                .then(r => AnimalRepository.delete(animal.id))
                         }>Discharge</button>
                     </details>
                 </div>

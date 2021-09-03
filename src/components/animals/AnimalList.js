@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react"
 import Animal from "./Animal"
 import AnimalDialog from "./AnimalDialog"
-import { AnimalContext } from "../providers/AnimalProvider"
+import AnimalRepository from "../../repositories/AnimalRepository";
+import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";
 import useModal from "../../hooks/ui/useModal"
 
 import "./AnimalList.css"
@@ -9,12 +10,15 @@ import "./cursor.css"
 
 
 export const AnimalListComponent = (props) => {
+    const [animals, petAnimals] = useState([])
+    const [animalOwners, setAnimalOwners] = useState([])
     const [currentAnimal, setCurrentAnimal] = useState({ treatments: [] })
-
-    let { filteredAnimals } = useContext(AnimalContext)
-
-
     let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
+
+    useEffect(() => {
+       AnimalRepository.getAll().then(data => petAnimals(data))
+       AnimalOwnerRepository.getAll().then(setAnimalOwners)
+    }, [])
 
     const showTreatmentHistory = animal => {
         setCurrentAnimal(animal)
@@ -48,8 +52,10 @@ export const AnimalListComponent = (props) => {
 
             <ul className="animals">
                 {
-                    filteredAnimals.map(a =>
-                        <Animal key={a.id} animal={a}
+                    animals.map(anml =>
+                        <Animal key={`animal--${anml.id}`} animal={anml}
+                            animalOwners={animalOwners}
+                            setAnimalOwners={setAnimalOwners}
                             showTreatmentHistory={showTreatmentHistory}
                         />)
                 }

@@ -11,7 +11,7 @@ const useSimpleAuth = () => {
         || sessionStorage.getItem("kennel_token") !== null
 
     const register = (user) => {
-        return fetch(`${Settings.remoteURL}/register`, {
+        return fetch(`${Settings.remoteURL}/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -20,22 +20,25 @@ const useSimpleAuth = () => {
         })
         .then(_ => _.json())
         .then(response => {
-            localStorage.setItem("kennel_token", response.accessToken)
+            if ("id" in response) {
+                localStorage.setItem("kennel_token", response.id)
+            }
         })
     }
 
-    const login = (email, password) => {
-        return fetch(`${Settings.remoteURL}/login`, {
-            method: "POST",
+    const login = (email) => {
+        return fetch(`${Settings.remoteURL}/users?email=${email}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
+            }
         })
         .then(_ => _.json())
-        .then(response => {
-            setIsLoggedIn(true)
-            localStorage.setItem("kennel_token", response.accessToken)
+        .then(matchingUsers => {
+            if (matchingUsers.length > 0) {
+                setIsLoggedIn(true)
+                localStorage.setItem("kennel_token", matchingUsers[0].id)
+            }
         })
     }
 

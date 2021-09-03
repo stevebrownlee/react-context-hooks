@@ -1,17 +1,12 @@
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 import { Link } from "react-router-dom"
 import location from "./location.png"
-import { AnimalContext } from "../providers/AnimalProvider"
-import { EmployeeContext } from "../providers/EmployeeProvider"
 import "./Location.css"
 
 
 export default props => {
-    const { animals } = useContext(AnimalContext)
-    const { employees } = useContext(EmployeeContext)
-
-    const animalCount = animals.filter(a => a.locationId === props.location.id).length
-    const employeeCount = employees.filter(e => e.locationId === props.location.id).length
+    const [animalCount, setAnimalCount] = useState(0)
+    const [employeeCount, setEmployeeCount] = useState(0)
 
     return (
         <article className="card location" style={{ width: `18rem` }}>

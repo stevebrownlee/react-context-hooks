@@ -3,15 +3,15 @@ import { fetchIt } from "../components/providers/Fetch"
 
 export default {
     async get(id) {
-        return await fetchIt(`${Settings.remoteURL}/employees/${id}`)
+        return await fetchIt(`${Settings.remoteURL}/users/${id}`)
     },
     async delete(id) {
-        return await fetchIt(`${Settings.remoteURL}/employees/${id}`, "DELETE")
+        return await fetchIt(`${Settings.remoteURL}/users/${id}`, "DELETE")
     },
     async addEmployee(employee) {
-        return await fetchIt(`${Settings.remoteURL}/employees`, "POST", JSON.stringify(employee))
+        return await fetchIt(`${Settings.remoteURL}/users`, "POST", JSON.stringify(employee))
     },
     async getAll() {
-        return await fetchIt(`${Settings.remoteURL}/employees`)
+        return await fetchIt(`${Settings.remoteURL}/users?employee=true`)
     }
 }

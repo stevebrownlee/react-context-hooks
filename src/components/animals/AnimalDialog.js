@@ -7,7 +7,7 @@ export default ({toggleDialog, animal}) => {
             {
                 animal.treatments.map(t => (
                     <div key={t.id}>
-                        <h4>{t.timestamp}</h4>
+                        <h4>{new Date(t.timestamp).toLocaleDateString("en-US")}</h4>
                         <p>{t.description}</p>
                     </div>
                 ))
