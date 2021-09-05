@@ -5,9 +5,9 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import "./AnimalCard.css"
 import { useHistory, useParams } from "react-router";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import { useOxfordList } from "../../hooks/string/useOxfordList.tsx";
+import { OxfordList } from "../../hooks/string/OxfordList.tsx";
 
-export default ({ animal, showTreatmentHistory, animalOwners, setAnimalOwners }) => {
+export const Animal = ({ animal, showTreatmentHistory, animalOwners, setAnimalOwners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [isEmployee, setAuth] = useState(false)
     const [myOwners, setPeople] = useState([])
@@ -65,7 +65,7 @@ export default ({ animal, showTreatmentHistory, animalOwners, setAnimalOwners })
                             <h6>Caretaker(s)</h6>
                             <span className="small">{
                                 "animalCaretakers" in currentAnimal
-                                    ? useOxfordList(currentAnimal.animalCaretakers, "user", "name")
+                                    ? OxfordList(currentAnimal.animalCaretakers, "user", "name")
                                     : ""
                             }</span>
 

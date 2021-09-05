@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import { useOxfordList } from "../../hooks/string/useOxfordList"
+import { OxfordList } from "../../hooks/string/OxfordList.tsx"
 import "./Location.css"
 
 
@@ -38,7 +38,7 @@ export default props => {
                     }
                 </p>
                 <p className="lead detailCard__info">
-                    {useOxfordList(locationEmployees, "name")}
+                    {OxfordList(locationEmployees, "name")}
                 </p>
             </div>
         </>

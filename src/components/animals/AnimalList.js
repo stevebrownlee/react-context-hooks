@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import Animal from "./Animal"
+import {Animal} from "./Animal"
 import AnimalDialog from "./AnimalDialog"
 import AnimalRepository from "../../repositories/AnimalRepository";
 import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";

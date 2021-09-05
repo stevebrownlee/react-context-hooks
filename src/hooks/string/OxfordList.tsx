@@ -1,4 +1,4 @@
-export const useOxfordList = (resources: Array<Object>, ...props: Array<string>) => {
+export const OxfordList = (resources: Array<Object>, ...props: Array<string>) => {
     const display = (resource: Object) => {
         return props.reduce(
             (data: Object, property: string) => {

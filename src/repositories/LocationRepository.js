@@ -9,6 +9,6 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/locations/${id}`, "DELETE")
     },
     async getAll() {
-        return await fetchIt(`${Settings.remoteURL}/locations`)
+        return await fetchIt(`${Settings.remoteURL}/locations?_embed=animals&_embed=employeeLocations`)
     }
 }

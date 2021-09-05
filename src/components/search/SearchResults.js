@@ -1,5 +1,5 @@
 import React from "react"
-import Animal from "../animals/Animal"
+import {Animal} from "../animals/Animal"
 import Employee from "../employees/Employee"
 import Location from "../locations/Location"
 import "./SearchResults.css"

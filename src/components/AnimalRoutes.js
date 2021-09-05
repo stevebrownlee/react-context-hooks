@@ -1,6 +1,6 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import Animal from "./animals/Animal"
+import {Animal} from "./animals/Animal"
 import AnimalForm from "./animals/AnimalForm"
 import { AnimalListComponent } from "./animals/AnimalList"
 

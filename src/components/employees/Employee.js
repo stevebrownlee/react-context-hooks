@@ -4,6 +4,7 @@ import EmployeeRepository from "../../repositories/EmployeeRepository";
 import person from "./person.png"
 import "./Employee.css"
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 
 
 export default ({ employee }) => {
@@ -11,6 +12,7 @@ export default ({ employee }) => {
     const [location, markLocation] = useState({ name: "" })
     const [classes, defineClasses] = useState("card employee")
     const { employeeId } = useParams()
+    const { getCurrentUser } = useSimpleAuth()
     const { resolveResource, resource } = useResourceResolver()
 
     useEffect(() => {
@@ -62,9 +64,13 @@ export default ({ employee }) => {
                         : ""
                 }
 
+                {
+                    getCurrentUser().employee
+                        ? <button className="btn--fireEmployee"
+                        onClick={() => EmployeeRepository.delete(employee.id)}>Fire</button>
+                        : ""
+                }
 
-                <button className="btn--fireEmployee"
-                    onClick={() => EmployeeRepository.delete(employee.id)}>Fire</button>
             </section>
 
         </article>
