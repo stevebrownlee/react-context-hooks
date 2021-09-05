@@ -38,7 +38,7 @@ export default props => {
                     }
                 </p>
                 <p className="lead detailCard__info">
-                    {useOxfordList(locationEmployees)}
+                    {useOxfordList(locationEmployees, "name")}
                 </p>
             </div>
         </>
