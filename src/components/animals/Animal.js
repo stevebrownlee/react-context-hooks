@@ -7,7 +7,9 @@ import { useHistory, useParams } from "react-router";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import { OxfordList } from "../../hooks/string/OxfordList.tsx";
 
-export const Animal = ({ animal, showTreatmentHistory, owners, animalOwners, setAnimalOwners }) => {
+export const Animal = ({ animal, syncAnimals,
+    showTreatmentHistory, owners,
+    animalOwners, setAnimalOwners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [isEmployee, setAuth] = useState(false)
     const [myOwners, setPeople] = useState([])
@@ -128,8 +130,11 @@ export const Animal = ({ animal, showTreatmentHistory, owners, animalOwners, set
                             isEmployee
                                 ? <button className="btn btn-warning mt-3 form-control small" onClick={() =>
                                         AnimalOwnerRepository
-                                            .removeOwnerRelationship(currentAnimal.id)
-                                            .then(r => AnimalRepository.delete(currentAnimal.id))
+                                            .removeOwnersAndCaretakers(currentAnimal.id)
+                                            .then(() => AnimalRepository.delete(currentAnimal.id))
+                                            .then(AnimalOwnerRepository.getAll)
+                                            .then(setAnimalOwners)
+                                            .then(syncAnimals)
                                     }>Discharge</button>
                                 : ""
                         }

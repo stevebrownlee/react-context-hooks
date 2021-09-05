@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 import { Animal } from "./Animal"
 import { AnimalDialog } from "./AnimalDialog"
-import AnimalRepository from "../../repositories/AnimalRepository";
-import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";
+import AnimalRepository from "../../repositories/AnimalRepository"
+import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository"
 import useModal from "../../hooks/ui/useModal"
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import OwnerRepository from "../../repositories/OwnerRepository"
 
 import "./AnimalList.css"
 import "./cursor.css"
-import OwnerRepository from "../../repositories/OwnerRepository";
 
 
 export const AnimalListComponent = (props) => {
@@ -21,10 +21,14 @@ export const AnimalListComponent = (props) => {
     const history = useHistory()
     let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
 
+    const syncAnimals = () => {
+        AnimalRepository.getAll().then(data => petAnimals(data))
+    }
+
     useEffect(() => {
         OwnerRepository.getAllCustomers().then(updateOwners)
-        AnimalRepository.getAll().then(data => petAnimals(data))
         AnimalOwnerRepository.getAll().then(setAnimalOwners)
+        syncAnimals()
     }, [])
 
     const showTreatmentHistory = animal => {
@@ -69,6 +73,7 @@ export const AnimalListComponent = (props) => {
                         <Animal key={`animal--${anml.id}`} animal={anml}
                             animalOwners={animalOwners}
                             owners={owners}
+                            syncAnimals={syncAnimals}
                             setAnimalOwners={setAnimalOwners}
                             showTreatmentHistory={showTreatmentHistory}
                         />)
