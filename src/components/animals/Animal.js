@@ -7,7 +7,7 @@ import { useHistory, useParams } from "react-router";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import { OxfordList } from "../../hooks/string/OxfordList.tsx";
 
-export const Animal = ({ animal, showTreatmentHistory, animalOwners, setAnimalOwners }) => {
+export const Animal = ({ animal, showTreatmentHistory, owners, animalOwners, setAnimalOwners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [isEmployee, setAuth] = useState(false)
     const [myOwners, setPeople] = useState([])
@@ -24,7 +24,7 @@ export const Animal = ({ animal, showTreatmentHistory, animalOwners, setAnimalOw
 
     useEffect(() => {
         AnimalOwnerRepository.getOwnersByAnimal(currentAnimal.id).then(d => setPeople(d))
-    }, [currentAnimal])
+    }, [currentAnimal, animalOwners])
 
     useEffect(() => {
        if (animalId) {
@@ -85,7 +85,6 @@ export const Animal = ({ animal, showTreatmentHistory, animalOwners, setAnimalOw
                                     : ""
                             }
 
-
                             {
                                 isEmployee && myOwners.length < 2
                                     ? <select defaultValue=""
@@ -97,10 +96,10 @@ export const Animal = ({ animal, showTreatmentHistory, animalOwners, setAnimalOw
                                                 .then(setAnimalOwners)
                                         }} >
                                         <option value="">
-                                            Select {animalOwners.length === 1 ? "another" : "an"} owner
+                                            Select {myOwners.length === 1 ? "another" : "an"} owner
                                         </option>
                                         {
-                                            animalOwners.map(o => <option key={o.id} value={o.id}>{o.user.name}</option>)
+                                            owners.map(o => <option key={o.id} value={o.id}>{o.name}</option>)
                                         }
                                     </select>
                                     : null

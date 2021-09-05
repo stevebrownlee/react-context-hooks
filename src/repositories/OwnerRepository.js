@@ -14,6 +14,12 @@ export default {
     async delete(id) {
         return await fetchIt(`${Settings.remoteURL}/users/${id}`, "DELETE")
     },
+    async getAllCustomers() {
+        return await fetchIt(`${Settings.remoteURL}/users?employee=false`)
+    },
+    async getAllEmployees() {
+        return await fetchIt(`${Settings.remoteURL}/users?employee=true`)
+    },
     async getAll() {
         return await fetchIt(`${Settings.remoteURL}/users`)
     }

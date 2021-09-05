@@ -1,6 +1,6 @@
 import React from "react"
 
-export default ({toggleDialog, animal}) => {
+export const AnimalDialog = ({toggleDialog, animal}) => {
     return (
         <dialog id="dialog--animal" className="dialog--animal">
             <h2 style={{ marginBottom: "1.3em" }}>Medical History for {animal.name}</h2>
