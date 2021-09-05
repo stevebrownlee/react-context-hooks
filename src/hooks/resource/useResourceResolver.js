@@ -5,7 +5,7 @@ const useResourceResolver = () => {
     const [resource, setResource] = useState({})
 
     useEffect(() => {
-       console.log('resource', resource)
+       console.log('resolved resource', resource)
     }, [resource])
 
     const resolveResource = (property, param, getter) => {
@@ -16,7 +16,9 @@ const useResourceResolver = () => {
         else {
             // If being rendered indepedently
             if (param) {
-                getter(param).then(e => setResource(e))
+                getter(param).then(retrievedResource => {
+                    setResource(retrievedResource)
+                })
             }
         }
     }

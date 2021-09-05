@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom"
 import * as serviceWorker from './serviceWorker'
-import Kennel from './components/Kennel'
+import { Kennel } from './components/Kennel'
 import "./index.css"
 
 ReactDOM.render((

@@ -1,13 +1,9 @@
-import { useState } from "react"
 import Settings from "../../repositories/Settings"
 
 
 const useSimpleAuth = () => {
-    const [loggedIn, setIsLoggedIn] = useState(false)
 
-    const isAuthenticated = () =>
-        loggedIn
-        || localStorage.getItem("kennel_token") !== null
+    const isAuthenticated = () => localStorage.getItem("kennel_token") !== null
         || sessionStorage.getItem("kennel_token") !== null
 
     const register = (user) => {
@@ -21,7 +17,9 @@ const useSimpleAuth = () => {
         .then(_ => _.json())
         .then(response => {
             if ("id" in response) {
-                localStorage.setItem("kennel_token", response.id)
+                const baseUserObject = JSON.stringify(response)
+                let encoded = Buffer.from(baseUserObject).toString("base64")
+                localStorage.setItem("kennel_token", encoded)
             }
         })
     }
@@ -36,20 +34,30 @@ const useSimpleAuth = () => {
         .then(_ => _.json())
         .then(matchingUsers => {
             if (matchingUsers.length > 0) {
-                setIsLoggedIn(true)
-                localStorage.setItem("kennel_token", matchingUsers[0].id)
+                const baseUserObject = JSON.stringify(matchingUsers[0])
+                let encoded = Buffer.from(baseUserObject).toString("base64")
+                localStorage.setItem("kennel_token", encoded)
+                return true
             }
+            return false
         })
     }
 
     const logout = () => {
         console.log("*** Toggling auth state and removing credentials ***")
-        setIsLoggedIn(false)
         localStorage.removeItem("kennel_token")
         sessionStorage.removeItem("kennel_token")
     }
 
-    return { isAuthenticated, logout, login, register }
+    const getCurrentUser = () => {
+        const encoded = localStorage.getItem("kennel_token")
+        const unencoded = Buffer.from(encoded, "base64").toString("utf8")
+        const parsed = JSON.parse(unencoded)
+        const bare = Object.assign(Object.create(null), parsed)
+        return bare
+    }
+
+    return { isAuthenticated, logout, login, register, getCurrentUser }
 }
 
 export default useSimpleAuth

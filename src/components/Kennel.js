@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./Kennel.css"
 
 
-export default () => {
+export const Kennel = () => {
     const { isAuthenticated } = useSimpleAuth()
 
     return <>

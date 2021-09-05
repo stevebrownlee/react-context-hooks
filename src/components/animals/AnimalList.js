@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Animal from "./Animal"
 import AnimalDialog from "./AnimalDialog"
 import AnimalRepository from "../../repositories/AnimalRepository";
@@ -7,17 +7,19 @@ import useModal from "../../hooks/ui/useModal"
 
 import "./AnimalList.css"
 import "./cursor.css"
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 
 
 export const AnimalListComponent = (props) => {
     const [animals, petAnimals] = useState([])
     const [animalOwners, setAnimalOwners] = useState([])
     const [currentAnimal, setCurrentAnimal] = useState({ treatments: [] })
+    const { getCurrentUser } = useSimpleAuth()
     let { toggleDialog, modalIsOpen } = useModal("#dialog--animal")
 
     useEffect(() => {
-       AnimalRepository.getAll().then(data => petAnimals(data))
-       AnimalOwnerRepository.getAll().then(setAnimalOwners)
+        AnimalRepository.getAll().then(data => petAnimals(data))
+        AnimalOwnerRepository.getAll().then(setAnimalOwners)
     }, [])
 
     const showTreatmentHistory = animal => {
@@ -42,13 +44,19 @@ export const AnimalListComponent = (props) => {
         <>
             <AnimalDialog toggleDialog={toggleDialog} animal={currentAnimal} />
 
-            <div className="centerChildren btn--newResource">
-                <button type="button"
-                    className="btn btn-success "
-                    onClick={() => { props.history.push("/animals/new") }}>
-                    Admit Animal
-                </button>
-            </div>
+
+            {
+                getCurrentUser().employee
+                    ? ""
+                    : <div className="centerChildren btn--newResource">
+                        <button type="button"
+                            className="btn btn-success "
+                            onClick={() => { props.history.push("/animals/new") }}>
+                            Register Animal
+                        </button>
+                    </div>
+            }
+
 
             <ul className="animals">
                 {

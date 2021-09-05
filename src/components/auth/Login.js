@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import "./Login.css"
 import { Link } from "react-router-dom";
@@ -22,9 +22,11 @@ const Login = props => {
         */
         console.log("*** Initiate authentication ***")
         login(credentials.email, credentials.userName, storage)
-            .then(() => {
-                console.log("*** Rerouting to root URL ***")
-                props.history.push("/")
+            .then(success => {
+                if (success) {
+                    console.log("*** Rerouting to root URL ***")
+                    props.history.push("/")
+                }
             })
     }
 

@@ -3,6 +3,11 @@
     margin: 0.5em 0;
 }
 
+.employee--single {
+    width: 40em;
+    margin: 7em auto;
+}
+
 .btn--fireEmployee{
     margin: 1em 0 0 0;
 }

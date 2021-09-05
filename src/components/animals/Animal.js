@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from "react"
 import AnimalRepository from "../../repositories/AnimalRepository";
-import OwnerRepository from "../../repositories/OwnerRepository";
 import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import "./AnimalCard.css"
+import { useHistory, useParams } from "react-router";
+import useResourceResolver from "../../hooks/resource/useResourceResolver";
 
-export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) => {
+export default ({ animal, showTreatmentHistory, animalOwners, setAnimalOwners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
-    const [owners, setOwners] = useState([])
+    const [isEmployee, setAuth] = useState(false)
     const [myOwners, setPeople] = useState([])
-    const [cardClasses, setCardClasses] = useState("card animal")
+    const [classes, defineClasses] = useState("card animal")
+    const { getCurrentUser } = useSimpleAuth()
+    const history = useHistory()
+    const { animalId } = useParams()
+    const { resolveResource, resource:currentAnimal } = useResourceResolver()
 
     useEffect(() => {
-        OwnerRepository.getAll().then(data => setOwners(data))
-        AnimalOwnerRepository.getOwnersByAnimal(animal.id).then(d => setPeople(d))
+        setAuth(getCurrentUser().employee)
+        resolveResource(animal, animalId, AnimalRepository.get)
     }, [])
+
+    useEffect(() => {
+        AnimalOwnerRepository.getOwnersByAnimal(currentAnimal.id).then(d => setPeople(d))
+    }, [currentAnimal])
+
+    useEffect(() => {
+       if (animalId) {
+           defineClasses("card animal--single")
+       }
+    }, [animalId])
 
     return (
         <>
-            <li className={cardClasses}>
+            <li className={classes}>
                 <div className="card-body">
                     <div className="animal__header">
                         <h5 className="card-title">
@@ -28,10 +44,15 @@ export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) =
                                     "color": "rgb(94, 78, 196)"
                                 }}
                                 onClick={() => {
-                                    showTreatmentHistory(animal)
-                                }}> {animal.name} </button>
+                                    if (isEmployee) {
+                                        showTreatmentHistory(currentAnimal)
+                                    }
+                                    else {
+                                        history.push(`/animals/${currentAnimal.id}`)
+                                    }
+                                }}> {currentAnimal.name} </button>
                         </h5>
-                        <span className="card-text small">{animal.breed}</span>
+                        <span className="card-text small">{currentAnimal.breed}</span>
                     </div>
 
                     <details open={detailsOpen}>
@@ -42,26 +63,35 @@ export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) =
                         <section>
                             <h6>Caretaker</h6>
                             <span className="small">{
-                                "employee" in animal
-                                    ? animal.employee.name
+                                "employee" in currentAnimal
+                                    ? currentAnimal.employee.name
                                     : ""
                             }</span>
-                            <h6>Owners</h6>
-                            <span className="small">
-                                {
-                                    myOwners.reduce((p, c, idx) => {
-                                        return `${p} ${idx > 0 ? "and" : "Owned by"} ${c.user.name}`
-                                    }, "")
-                                }
-                            </span>
+
 
                             {
-                                myOwners.length < 2
+                                isEmployee
+                                    ? <>
+                                        <h6>Owners</h6>
+                                        <span className="small">
+                                            {
+                                                myOwners.reduce((p, c, idx) => {
+                                                    return `${p} ${idx > 0 ? "and" : "Owned by"} ${c.user.name}`
+                                                }, "")
+                                            }
+                                        </span>
+                                    </>
+                                    : ""
+                            }
+
+
+                            {
+                                isEmployee && myOwners.length < 2
                                     ? <select defaultValue=""
                                         name="owner"
                                         className="form-control small"
                                         onChange={e => {
-                                            AnimalOwnerRepository.assignOwner(animal.id, parseInt(e.target.value))
+                                            AnimalOwnerRepository.assignOwner(currentAnimal.id, parseInt(e.target.value))
                                                 .then(AnimalOwnerRepository.getAll)
                                                 .then(setAnimalOwners)
                                         }} >
@@ -77,11 +107,11 @@ export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) =
 
 
                             {
-                                detailsOpen && "treatments" in animal
+                                detailsOpen && "treatments" in currentAnimal
                                     ? <div className="small">
                                         <h6>Treatment History</h6>
                                         {
-                                            animal.treatments.map(t => (
+                                            currentAnimal.treatments.map(t => (
                                                 <div key={t.id}>
                                                     <p style={{ fontWeight: "bolder", color: "grey" }}>{t.timestamp}</p>
                                                     <p>{t.description}</p>
@@ -94,11 +124,16 @@ export default ({animal, showTreatmentHistory, animalOwners, setAnimalOwners}) =
 
                         </section>
 
-                        <button className="btn btn-warning mt-3 form-control small" onClick={() =>
-                            AnimalOwnerRepository
-                                .removeOwnerRelationship(animal.id)
-                                .then(r => AnimalRepository.delete(animal.id))
-                        }>Discharge</button>
+                        {
+                            isEmployee
+                                ? <button className="btn btn-warning mt-3 form-control small" onClick={() =>
+                                        AnimalOwnerRepository
+                                            .removeOwnerRelationship(currentAnimal.id)
+                                            .then(r => AnimalRepository.delete(currentAnimal.id))
+                                    }>Discharge</button>
+                                : ""
+                        }
+
                     </details>
                 </div>
             </li>
