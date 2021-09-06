@@ -1,8 +1,9 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import "./Login.css"
 
-export const Register = props => {
+export const Register = () => {
     const [credentials, syncAuth] = useState({
         firstName: "",
         lastName: "",
@@ -10,6 +11,7 @@ export const Register = props => {
         employee: false
     })
     const { register } = useSimpleAuth()
+    const history = useHistory()
 
     const handleRegister = (e) => {
         e.preventDefault()
@@ -21,7 +23,7 @@ export const Register = props => {
         }
 
         register(newUser).then(() => {
-            props.history.push("/")
+            history.push("/")
         })
     }
 
