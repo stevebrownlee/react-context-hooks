@@ -6,18 +6,19 @@ import "./AnimalCard.css"
 import { useHistory, useParams } from "react-router";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import { OxfordList } from "../../hooks/string/OxfordList.tsx";
+import OwnerRepository from "../../repositories/OwnerRepository";
 
 export const Animal = ({ animal, syncAnimals,
-    showTreatmentHistory, owners,
-    animalOwners, setAnimalOwners }) => {
+    showTreatmentHistory, owners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [isEmployee, setAuth] = useState(false)
     const [myOwners, setPeople] = useState([])
+    const [allOwners, registerOwners] = useState([])
     const [classes, defineClasses] = useState("card animal")
     const { getCurrentUser } = useSimpleAuth()
     const history = useHistory()
     const { animalId } = useParams()
-    const { resolveResource, resource:currentAnimal } = useResourceResolver()
+    const { resolveResource, resource: currentAnimal } = useResourceResolver()
 
     useEffect(() => {
         setAuth(getCurrentUser().employee)
@@ -25,13 +26,28 @@ export const Animal = ({ animal, syncAnimals,
     }, [])
 
     useEffect(() => {
-        AnimalOwnerRepository.getOwnersByAnimal(currentAnimal.id).then(d => setPeople(d))
-    }, [currentAnimal, animalOwners])
+        if (owners) {
+            registerOwners(owners)
+        }
+    }, [owners])
+
+    const getPeople = () => {
+        return AnimalOwnerRepository.getOwnersByAnimal(currentAnimal.id).then(d => setPeople(d))
+    }
 
     useEffect(() => {
-       if (animalId) {
-           defineClasses("card animal--single")
-       }
+        getPeople()
+    }, [currentAnimal])
+
+    useEffect(() => {
+        if (animalId) {
+            defineClasses("card animal--single")
+
+            AnimalOwnerRepository.getOwnersByAnimal(animalId).then(d => setPeople(d))
+                .then(() => {
+                    OwnerRepository.getAllCustomers().then(registerOwners)
+                })
+        }
     }, [animalId])
 
     return (
@@ -95,13 +111,13 @@ export const Animal = ({ animal, syncAnimals,
                                         onChange={e => {
                                             AnimalOwnerRepository.assignOwner(currentAnimal.id, parseInt(e.target.value))
                                                 .then(AnimalOwnerRepository.getAll)
-                                                .then(setAnimalOwners)
+                                                .then(getPeople)
                                         }} >
                                         <option value="">
                                             Select {myOwners.length === 1 ? "another" : "an"} owner
                                         </option>
                                         {
-                                            owners.map(o => <option key={o.id} value={o.id}>{o.name}</option>)
+                                            allOwners.map(o => <option key={o.id} value={o.id}>{o.name}</option>)
                                         }
                                     </select>
                                     : null
@@ -129,13 +145,11 @@ export const Animal = ({ animal, syncAnimals,
                         {
                             isEmployee
                                 ? <button className="btn btn-warning mt-3 form-control small" onClick={() =>
-                                        AnimalOwnerRepository
-                                            .removeOwnersAndCaretakers(currentAnimal.id)
-                                            .then(() => AnimalRepository.delete(currentAnimal.id))
-                                            .then(AnimalOwnerRepository.getAll)
-                                            .then(setAnimalOwners)
-                                            .then(syncAnimals)
-                                    }>Discharge</button>
+                                    AnimalOwnerRepository
+                                        .removeOwnersAndCaretakers(currentAnimal.id)
+                                        .then(() => AnimalRepository.delete(currentAnimal.id))
+                                        .then(syncAnimals)
+                                }>Discharge</button>
                                 : ""
                         }
 
