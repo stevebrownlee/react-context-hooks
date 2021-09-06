@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
+import { useHistory, useParams } from "react-router";
 import AnimalRepository from "../../repositories/AnimalRepository";
 import AnimalOwnerRepository from "../../repositories/AnimalOwnerRepository";
+import OwnerRepository from "../../repositories/OwnerRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import "./AnimalCard.css"
-import { useHistory, useParams } from "react-router";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import { OxfordList } from "../../hooks/string/OxfordList.tsx";
-import OwnerRepository from "../../repositories/OwnerRepository";
+import "./AnimalCard.css"
 
 export const Animal = ({ animal, syncAnimals,
     showTreatmentHistory, owners }) => {
@@ -32,7 +32,9 @@ export const Animal = ({ animal, syncAnimals,
     }, [owners])
 
     const getPeople = () => {
-        return AnimalOwnerRepository.getOwnersByAnimal(currentAnimal.id).then(d => setPeople(d))
+        return AnimalOwnerRepository
+            .getOwnersByAnimal(currentAnimal.id)
+            .then(people => setPeople(people))
     }
 
     useEffect(() => {
@@ -42,6 +44,7 @@ export const Animal = ({ animal, syncAnimals,
     useEffect(() => {
         if (animalId) {
             defineClasses("card animal--single")
+            setDetailsOpen(true)
 
             AnimalOwnerRepository.getOwnersByAnimal(animalId).then(d => setPeople(d))
                 .then(() => {
@@ -131,7 +134,9 @@ export const Animal = ({ animal, syncAnimals,
                                         {
                                             currentAnimal.treatments.map(t => (
                                                 <div key={t.id}>
-                                                    <p style={{ fontWeight: "bolder", color: "grey" }}>{t.timestamp}</p>
+                                                    <p style={{ fontWeight: "bolder", color: "grey" }}>
+                                                        {new Date(t.timestamp).toLocaleString("en-US")}
+                                                    </p>
                                                     <p>{t.description}</p>
                                                 </div>
                                             ))
