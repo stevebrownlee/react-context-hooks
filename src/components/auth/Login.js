@@ -1,15 +1,16 @@
 import React, { useState } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import { Link, useHistory } from "react-router-dom";
 import "./Login.css"
-import { Link } from "react-router-dom";
 
 
-const Login = props => {
+const Login = () => {
     const [credentials, syncAuth] = useState({
         email: "",
         remember: false
     })
     const { login } = useSimpleAuth()
+    const history = useHistory()
 
     // Simplistic handler for login submit
     const handleLogin = (e) => {
@@ -25,7 +26,7 @@ const Login = props => {
             .then(success => {
                 if (success) {
                     console.log("*** Rerouting to root URL ***")
-                    props.history.push("/")
+                    history.push("/")
                 }
             })
     }

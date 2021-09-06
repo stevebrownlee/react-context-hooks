@@ -1,8 +1,8 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
 import Login from "./auth/Login"
-import Register from "./auth/Register"
-import NavBar from "./nav/NavBar"
+import { Register } from "./auth/Register"
+import { NavBar } from "./nav/NavBar"
 import ApplicationViews from "./ApplicationViews"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -16,14 +16,18 @@ export const Kennel = () => {
         <Route render={() => {
             if (isAuthenticated()) {
                 return <>
-                    <Route render={p => <NavBar {...p} />} />
-                    <Route render={p => <ApplicationViews {...p} />} />
+                    <NavBar />
+                    <ApplicationViews />
                 </>
             } else {
                 return <Redirect to="/login" />
             }
         }} />
-        <Route path="/login" render={p => <Login {...p} />} />
-        <Route path="/register" render={p => <Register {...p} />} />
+        <Route path="/login">
+            <Login />
+        </Route>
+        <Route path="/register">
+            <Register />
+        </Route>
     </>
 }

@@ -1,16 +1,17 @@
 import React, { useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
-import "./NavBar.css"
 import AnimalRepository from "../../repositories/AnimalRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import Settings from "../../repositories/Settings";
+import "./NavBar.css"
 
 
 
-export default (props) => {
+export const NavBar = () => {
     const searchInput = useRef()
-    const { isAuthenticated, logout } = useSimpleAuth()
+    const { isAuthenticated, logout, getCurrentUser } = useSimpleAuth()
+    const history = useHistory()
 
     const search = (e) => {
         if (e.charCode === 13) {
@@ -31,7 +32,7 @@ export default (props) => {
                 .then(animals => {
                     foundItems.animals = animals
                     searchInput.current.value = ""
-                    props.history.push({
+                    history.push({
                         pathname: "/search",
                         state: foundItems
                     })
@@ -75,7 +76,7 @@ export default (props) => {
                                 isAuthenticated()
                                     ? <Link onClick={() => {
                                         logout()
-                                    }} className="nav-link" to="/login">Logout</Link>
+                                    }} className="nav-link" to="/login">Logout {getCurrentUser().name}</Link>
                                     : <Link className="nav-link" to="/login">Login</Link>
                             }
                         </li>

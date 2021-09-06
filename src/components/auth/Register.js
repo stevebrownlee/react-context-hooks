@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import "./Login.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import "./Login.css"
 
-const Register = props => {
+export const Register = props => {
     const [credentials, syncAuth] = useState({
         firstName: "",
         lastName: "",
@@ -88,4 +88,3 @@ const Register = props => {
         </main>
     )
 }
-export default Register
