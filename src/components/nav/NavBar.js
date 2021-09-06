@@ -1,42 +1,49 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import AnimalRepository from "../../repositories/AnimalRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import Settings from "../../repositories/Settings";
 import "./NavBar.css"
+import LocationRepository from "../../repositories/LocationRepository";
 
 
 
 export const NavBar = () => {
-    const searchInput = useRef()
+    const [ searchTerms, setTerms ] = useState("")
     const { isAuthenticated, logout, getCurrentUser } = useSimpleAuth()
     const history = useHistory()
 
     const search = (e) => {
-        if (e.charCode === 13) {
+        if (e.keyCode === 13) {
             const terms = document.querySelector("#searchTerms").value
-            const foundItems = {}
+            const foundItems = {
+                animals: [],
+                locations: [],
+                employees: []
+            }
 
-            fetch(`${Settings.remoteURL}/employees?name_like=${encodeURI(terms)}`)
+            fetch(`${Settings.remoteURL}/users?employee=true&name_like=${encodeURI(terms)}`)
                 .then(r => r.json())
                 .then(employees => {
                     foundItems.employees = employees
-                    return fetch(`${Settings.remoteURL}/locations?name_like=${encodeURI(terms)}`)
+                    return LocationRepository.search(terms)
                 })
-                .then(r => r.json())
                 .then(locations => {
                     foundItems.locations = locations
                     return AnimalRepository.searchByName(encodeURI(terms))
                 })
                 .then(animals => {
                     foundItems.animals = animals
-                    searchInput.current.value = ""
+                    setTerms("")
                     history.push({
                         pathname: "/search",
                         state: foundItems
                     })
                 })
+        }
+        else {
+            setTerms(e.target.value)
         }
     }
 
@@ -62,8 +69,7 @@ export const NavBar = () => {
                         </li>
                         <li className="nav-item">
                             <input id="searchTerms"
-                                onKeyPress={search}
-                                ref={searchInput}
+                                onKeyUp={search}
                                 className="form-control w-100"
                                 type="search"
                                 placeholder="Search"
