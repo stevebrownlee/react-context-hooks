@@ -1,18 +1,22 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom"
 import { OxfordList } from "../../hooks/string/OxfordList.tsx"
+import LocationRepository from "../../repositories/LocationRepository"
 import "./Location.css"
 
 
-export default props => {
+export default () => {
     const [animals, setAnimals] = useState([])
     const [employees, updateEmployees] = useState([])
-    const [locations, defineLocations] = useState([])
+    const [location, set] = useState({animals:[], employeeLocations: []})
 
-    const locationId = parseInt(props.match.params.locationId)
-    const location = locations.find(a => a.id === locationId) || {}
-    const locationAnimals = animals.filter(a => a.locationId === locationId)
-    const locationEmployees = employees.filter(e => e.locationId === locationId)
+    const { locationId } = useParams()
+
+
+    useEffect(() => {
+       LocationRepository.get(locationId).then(set)
+    }, [locationId])
 
     return (
         <>
@@ -21,7 +25,7 @@ export default props => {
                 <p className="lead detailCard__lead">
                     Currently caring for
                     {
-                        locationAnimals.map((a, idx, arr) =>
+                        location.animals.map((a, idx, arr) =>
                             <span key={idx}>
                                 {idx > 0 && ", "}
                                 <Link to={`/animals/${a.id}`}> {a.name}</Link>
@@ -33,12 +37,12 @@ export default props => {
                 <hr className="my-4" />
                 <p className="lead detailCard__info">
                     {
-                        `We currently have ${locationEmployees.length}
+                        `We currently have ${location.employeeLocations.length}
                         well-trained animal lovers and trainers:`
                     }
                 </p>
                 <p className="lead detailCard__info">
-                    {OxfordList(locationEmployees, "name")}
+                    {OxfordList(location.employeeLocations, "employee.name")}
                 </p>
             </div>
         </>

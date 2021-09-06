@@ -67,7 +67,7 @@ export const Animal = ({ animal, syncAnimals,
                             <h6>Caretaker(s)</h6>
                             <span className="small">{
                                 "animalCaretakers" in currentAnimal
-                                    ? OxfordList(currentAnimal.animalCaretakers, "user", "name")
+                                    ? OxfordList(currentAnimal.animalCaretakers, "user.name")
                                     : ""
                             }</span>
 

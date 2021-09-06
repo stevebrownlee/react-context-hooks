@@ -1,9 +1,20 @@
 import Settings from "./Settings"
 import { fetchIt } from "./Fetch"
+import OwnerRepository from "./OwnerRepository"
 
 export default {
     async get(id) {
-        return await fetchIt(`${Settings.remoteURL}/locations/${id}`)
+        const employees = await OwnerRepository.getAllEmployees()
+        return await fetchIt(`${Settings.remoteURL}/locations/${id}?_embed=animals&_embed=employeeLocations`)
+            .then(location => {
+                location.employeeLocations = location.employeeLocations.map(
+                    el => {
+                        el.employee = employees.find(e => e.id === el.userId)
+                        return el
+                    }
+                )
+                return location
+            })
     },
     async delete(id) {
         return await fetchIt(`${Settings.remoteURL}/locations/${id}`, "DELETE")
